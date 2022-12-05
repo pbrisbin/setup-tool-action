@@ -1,0 +1,9 @@
+also_exclude:
+  - "dist/**/*"
+
+restylers:
+  - prettier-yaml:
+      include:
+        - "**/*.yaml"
+        - "!action.yml"
+  - "*"

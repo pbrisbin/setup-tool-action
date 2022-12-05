@@ -1,0 +1,67 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+      - run: yarn
+      - run: yarn test
+
+  integration:
+    strategy:
+      matrix:
+        runner:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+      fail-fast: false
+
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./
+        with:
+          name: 'hlint'
+          version: '3.5'
+          url: 'https://github.com/ndmitchell/{name}/releases/download/v{version}/{name}-{version}-{arch}-{os}.{ext}'
+          subdir: '{name}-{version}'
+          os-darwin: osx
+          os-win32: windows
+          arch: x86_64
+      - run: hlint --version
+
+      - uses: ./
+        with:
+          name: dms
+          version: latest
+          url: "https://releases.deadmanssnitch.com/field-agent/{version}/{name}_{os}_{arch}.{ext}"
+          os-darwin: macos
+          os-win32: windows
+          arch: amd64
+      - run: dms --version
+
+      - uses: ./
+        with:
+          name: pandoc
+          version: 2.19.2
+          url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}'
+          url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
+          subdir: '{name}-{version}/bin'
+          subdir-win32: '{name}-{version}'
+          os-win32: windows
+          arch: x86_64
+          arch-linux: amd64
+      - run: pandoc --version
