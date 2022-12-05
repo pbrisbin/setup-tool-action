@@ -15,7 +15,7 @@ position and names used for things like "os" or "architecture".
 
 This doesn't scale. Instead, this action abstracts over that and offers good
 ergonomics for users to specify any variation directly via `inputs`. This should
-allow the action to be used easily for *any* such case, and obviate any
+allow the action to be used easily for _any_ such case, and obviate any
 tool-specific actions or support cases for which a tool-specific action doesn't
 exist, without having to create one.
 
@@ -27,7 +27,7 @@ steps:
     with:
       name: my-tool
       version: 1.0.0
-      url: 'http://releases.my-tool.com/{name}-{version}.{os}-{arch}.{ext}'
+      url: "http://releases.my-tool.com/{name}-{version}.{os}-{arch}.{ext}"
 ```
 
 ## Inputs
@@ -40,7 +40,7 @@ steps:
   and **subdir** template strings.
 
   | Runner           | Platform / {os} | Arch / {arch} | {ext}    |
-  | ---              | ---             | ---           | ---      |
+  | ---------------- | --------------- | ------------- | -------- |
   | `ubuntu-latest`  | `linux`         | `x64`         | `tar.gz` |
   | `macOS-latest`   | `darwin`        | `x64`         | `tar.gz` |
   | `windows-latest` | `win32`         | `x64`         | `zip`    |
@@ -82,10 +82,10 @@ None.
 
 ```yaml
 with:
-  name: 'hlint'
-  version: '3.5'
-  url: 'https://github.com/ndmitchell/{name}/releases/download/v{version}/{name}-{version}-{arch}-{os}.{ext}'
-  subdir: '{name}-{version}'
+  name: "hlint"
+  version: "3.5"
+  url: "https://github.com/ndmitchell/{name}/releases/download/v{version}/{name}-{version}-{arch}-{os}.{ext}"
+  subdir: "{name}-{version}"
   os-darwin: osx
   os-win32: windows
   arch-x64: x86_64
@@ -113,10 +113,10 @@ with:
 with:
   name: pandoc
   version: 2.19.2
-  url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}'
-  url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
-  subdir: '{name}-{version}/bin'
-  subdir-win32: '{name}-{version}'
+  url: "https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}"
+  url-darwin: "https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip"
+  subdir: "{name}-{version}/bin"
+  subdir-win32: "{name}-{version}"
   os-win32: windows
   arch-x64: x86_64
   arch-linux-x64: amd64
