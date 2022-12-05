@@ -34,35 +34,7 @@ steps:
 
 ## Inputs
 
-- **name**: a name for the tool being installed.
-
-- **version**: a version for the tool being installed.
-
-- **url**: a URL to the archive that holds the pre-compiled executable(s). This
-  value supports interpolations.
-
-  - `{name}`: will be replaced by `inputs.name`
-  - `{version}`: will be replaced by `inputs.version`
-  - `{os}`: will be replaced by `process.platform` (see `remap-os-`)
-  - `{arch}`: will be replaced by `process.arch` (see `remap-arch-`)
-  - `{ext}`: will be replaced by `tar.gz` or `zip` (see `remap-ext-`)
-
-  For example, `http://.../{name}/{os}-{arch}/{version}.{ext}`, on a Linux
-  runner, will download `http://.../{name}/linux-x64/{version}.tar.gz`.
-
-- **subdir**: the sub-directory within the downloaded archive where the
-  executable(s) can be found. Default is none (they are expected to be
-  top-level). Supports the same interpolation values as `url`.
-
-- **remap-os-{darwin|linux|win32}**: values to use as the `{os}` interpolation
-  for the given platform. Default behavior is to use them as-is.
-
-- **remap-arch-{arm|arm64|x64}**: values to use as the `{arch}` interpolation
-  for the given architecture. Default behavior is to use them as-is.
-
-- **remap-ext-{darwin|linux|win32}**: values to use as the `{ext}` interpolation
-  for the given platform. Default is `tar.gz` for `darwin` or `linux`, and `zip`
-  for `win32`.
+TODO: document this.
 
 See [`action.yml`](./action.yml) for a up to date and comprehensive details.
 
@@ -82,9 +54,9 @@ with:
   version: '3.5'
   url: 'https://github.com/ndmitchell/{name}/releases/download/v{version}/{name}-{version}-{arch}-{os}.{ext}'
   subdir: '{name}-{version}'
-  remap-os-darwin: osx
-  remap-os-win32: windows
-  remap-arch-x64: x86_64
+  os-darwin: osx
+  os-win32: windows
+  arch-x64: x86_64
 ```
 
 **Replaces**: https://github.com/haskell/actions/tree/main/hlint-setup
@@ -96,12 +68,27 @@ with:
   name: dms
   version: latest
   url: "https://releases.deadmanssnitch.com/field-agent/{version}/{name}_{os}_{arch}.{ext}"
-  remap-os-darwin: macos
-  remap-os-win32: windows
-  remap-arch-x64: amd64
+  os-darwin: macos
+  os-win32: windows
+  arch-x64: amd64
 ```
 
 **Replaces**: N/A
+
+### Pandoc
+
+```yaml
+with:
+  name: pandoc
+  version: 2.19.2
+  url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{arch}-{os}.{ext}'
+  url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
+  os-win32: windows
+  arch-x64: x86_64
+  arch-linux-x64: amd64
+```
+
+**Replaces**: https://github.com/r-lib/actions/tree/v2-branch/setup-pandoc
 
 ### More...
 
