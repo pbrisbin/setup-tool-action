@@ -57,7 +57,7 @@ jobs:
         with:
           name: pandoc
           version: 2.19.2
-          url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{arch}-{os}.{ext}'
+          url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}'
           url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
           os-win32: windows
           arch-x64: x86_64
