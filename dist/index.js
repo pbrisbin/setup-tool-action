@@ -1,6 +1,67 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 180:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getInputs = void 0;
+function getInputs(platform, osArch, core) {
+    var name = requireInput(core, ["name"]);
+    var version = requireInput(core, ["version"]);
+    var url = requireInput(core, [
+        "url-".concat(platform),
+        "url-".concat(platform, "-").concat(osArch),
+        "url",
+    ]);
+    var subdir = optionalInput(core, [
+        "subdir-".concat(platform),
+        "subdir-".concat(platform, "-").concat(osArch),
+        "subdir",
+    ]);
+    var os = optionalInputDefault(core, ["os-".concat(platform)], platform);
+    var arch = optionalInputDefault(core, ["arch-".concat(platform, "-").concat(osArch), "arch-".concat(osArch)], osArch);
+    var ext = optionalInputDefault(core, ["ext-".concat(platform, "-").concat(osArch), "ext-".concat(platform)], inferExtension(platform));
+    return {
+        name: name,
+        version: version,
+        url: url,
+        subdir: subdir,
+        os: os,
+        arch: arch,
+        ext: ext,
+    };
+}
+exports.getInputs = getInputs;
+function requireInput(core, inputs) {
+    var value = inputs.map(function (x) { return core.getInput(x); }).find(function (x) { return x; });
+    if (!value) {
+        throw new Error("You must supply one of ".concat(inputs, " as an input"));
+    }
+    return value;
+}
+function optionalInput(core, inputs) {
+    var value = inputs.map(function (x) { return core.getInput(x); }).find(function (x) { return x; });
+    return value ? value : null;
+}
+function optionalInputDefault(core, inputs, def) {
+    var value = inputs.map(function (x) { return core.getInput(x); }).find(function (x) { return x; });
+    return value ? value : def;
+}
+function inferExtension(platform) {
+    switch (platform) {
+        case "win32":
+            return "zip";
+        default:
+            return "tar.gz";
+    }
+}
+
+
+/***/ }),
+
 /***/ 24:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -90,6 +151,7 @@ var tc = __importStar(__nccwpck_require__(784));
 var os = __importStar(__nccwpck_require__(37));
 var path = __importStar(__nccwpck_require__(17));
 var interpolate_1 = __nccwpck_require__(24);
+var inputs_1 = __nccwpck_require__(180);
 function getExtract(ext) {
     switch (ext) {
         case "tar.gz":
@@ -98,21 +160,8 @@ function getExtract(ext) {
             return tc.extractZip;
     }
 }
-function remapInput(name, input) {
-    var value = core.getInput("remap-".concat(name, "-").concat(input));
-    if (!value) {
-        throw new Error("\n      Unsupported value for ".concat(name, ": ").concat(input, "\n\n      Please report this to https://github.com/pbrisbin/setup-tool-action/issues.\n    "));
-    }
-    return value;
-}
 function mkReleaseConfig(platform, osArch) {
-    var name = core.getInput("name", { required: true });
-    var version = core.getInput("version", { required: true });
-    var urlTemplate = core.getInput("url", { required: true });
-    var subdirTemplate = core.getInput("subdir");
-    var os = remapInput("os", platform);
-    var arch = remapInput("arch", osArch);
-    var ext = remapInput("ext", platform);
+    var _a = (0, inputs_1.getInputs)(platform, osArch, core), name = _a.name, version = _a.version, urlTemplate = _a.url, subdirTemplate = _a.subdir, os = _a.os, arch = _a.arch, ext = _a.ext;
     var templateVars = { name: name, version: version, os: os, arch: arch, ext: ext };
     var url = (0, interpolate_1.interpolate)(urlTemplate, templateVars);
     var subdir = subdirTemplate

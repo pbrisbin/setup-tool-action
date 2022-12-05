@@ -19,95 +19,56 @@ inputs:
       {name} and {version} will match the other inputs. {os}, {arch} and {ext},
       will be inferred, but can be changed by setting the archive-extension-
       input.
-    required: false
-
-  url-os-darwin:
-    description: Override url when process.platform==darwin
-    required: false
-  url-os-linux:
-    description: Override url when process.platform==linux
-    required: false
-  url-os-win32:
-    description: Override url when process.platform==win32
-    required: false
 
   subdir:
     description: |
       Subdirectory within the archive to find the executable(s). Supports the
       same interpolations as url.
-    required: false
-  subdir-os-darwin:
-    description: Override subdir when process.platform==darwin
-    required: false
-  subdir-os-linux:
-    description: Override subdir when process.platform==linux
-    required: false
-  subdir-os-win32:
-    description: Override subdir when process.platform==win32
-    required: false
 
-  remap-os-darwin:
-    description: "{os} to use when process.platform==darwin"
-    require: false
 
-  remap-os-linux:
-    description: "{os} to use when process.platform==linux"
-    require: false
+  # Override url
 
-  remap-os-win32:
-    description: "{os} to use when process.platform==win32"
-    require: false
+  url-darwin: { description: "Override url when platform==darwin" }
+  url-linux:  { description: "Override url when platform==linux" }
+  url-win32:  { description: "Override url when platform==win32" }
 
-  remap-arch-arm:
-    description: "{arch} to use when process.arch==arm"
-    required: false
-  remap-arch-darwin-arm:
-    description: "{arch} to use when process.platform==darwin and process.arch==arm"
-    required: false
-  remap-arch-linux-arm:
-    description: "{arch} to use when process.platform==linux and process.arch==arm"
-    required: false
-  remap-arch-win32-arm:
-    description: "{arch} to use when process.platform==win32 and process.arch==arm"
-    required: false
+  url-darwin-x64: { description: "Override url when platform==darwin and arch==x64" }
+  url-linux-x64:  { description: "Override url when platform==linux and arch==x64" }
+  url-win33-x64:  { description: "Override url when platform==win33 and arch==x64" }
 
-  remap-arch-arm64:
-    description: "{arch} to use when process.arch==arm64"
-    required: false
-  remap-arch-darwin-arm64:
-    description: "{arch} to use when process.platform==darwin and process.arch==arm64"
-    required: false
-  remap-arch-linux-arm64:
-    description: "{arch} to use when process.platform==linux and process.arch==arm64"
-    required: false
-  remap-arch-win32-arm64:
-    description: "{arch} to use when process.platform==win32 and process.arch==arm64"
-    required: false
+  # Override subdir
 
-  remap-arch-x64:
-    description: "{arch} to use when process.arch==x64"
-    required: false
-  remap-arch-darwin-x64:
-    description: "{arch} to use when process.platform==darwin and process.arch==x64"
-    required: false
-  remap-arch-linux-x64:
-    description: "{arch} to use when process.platform==linux and process.arch==x64"
-    required: false
-  remap-arch-win32-x64:
-    description: "{arch} to use when process.platform==win32 and process.arch==x64"
-    required: false
+  subdir-darwin: { description: "Override subdir when platform==darwin" }
+  subdir-linux:  { description: "Override subdir when platform==linux" }
+  subdir-win32:  { description: "Override subdir when platform==win32" }
 
-  remap-ext-darwin:
-    description: "{ext} to use when process.platform==darwin"
-    require: false
+  subdir-darwin-x64: { description: "Override subdir when platform==darwin and arch==x64" }
+  subdir-linux-x64:  { description: "Override subdir when platform==linux and arch==x64" }
+  subdir-win33-x64:  { description: "Override subdir when platform==win33 and arch==x64" }
 
-  remap-ext-linux:
-    description: "{ext} to use when process.platform==linux"
-    require: false
+  # Override {os} interpolation
 
-  remap-ext-win32:
-    description: "{ext} to use when process.platform==win32"
-    require: false
+  os-darwin: { description: "{os} to use when platform==darwin" }
+  os-linux:  { description: "{os} to use when platform==linux" }
+  os-win32:  { description: "{os} to use when platform==win32" }
+
+  # Override {arch} interpolation
+
+  arch-x64: { description: "{arch} to use when arch==x64" }
+
+  arch-darwin-x64: { description: "{arch} to use when platform==darwin and arch==x64" }
+  arch-linux-x64:  { description: "{arch} to use when platform==linux and arch==x64" }
+  arch-win32-x64:  { description: "{arch} to use when platform==win32 and arch==x64" }
+
+  # Override {ext} interpolation
+
+  ext-darwin: { description: "{ext} to use when platform==darwin" }
+  ext-linux:  { description: "{ext} to use when platform==linux" }
+  ext-win32:  { description: "{ext} to use when platform==win32" }
+
+  ext-darwin-x64: { description: "{ext} to use when platform==darwin and arch==x64" }
+  ext-linux-x64:  { description: "{ext} to use when platform==linux and arch==x64" }
+  ext-win33-x64:  { description: "{ext} to use when platform==win33 and arch==x64" }
 
 outputs: {}
 
