@@ -1,0 +1,83 @@
+name: 'Setup any binary tool'
+description: 'Cached download of any binary release'
+inputs:
+  name:
+    description: "Name of the tool"
+    required: true
+
+  version:
+    description: "Version of the tool"
+    required: true
+
+  url:
+    description: |
+      URL to installation archive. This value may contain interpolations for
+      name, version, os, arch, and extension.
+
+      http://example.com/binaries/{name}/{version}.{os}_{arch}.{ext}
+
+      {name} and {version} will match the other inputs. {os}, {arch} and {ext},
+      will be inferred, but can be changed by setting the archive-extension-
+      input.
+
+    required: true
+
+  subdir:
+    description: |
+      Subdirectory within the archive to find the executable(s). Supports the
+      same interpolations as url.
+    required: false
+
+  remap-os-darwin:
+    description: "{os} to use when process.platform==darwin"
+    require: false
+    default: darwin
+
+  remap-os-linux:
+    description: "{os} to use when process.platform==linux"
+    require: false
+    default: linux
+
+  remap-os-win32:
+    description: "{os} to use when process.platform==win32"
+    require: false
+    default: win32
+
+  remap-arch-arm:
+    description: "{arch} to use when process.arch==arm"
+    required: false
+    default: arm
+
+  remap-arch-arm64:
+    description: "{arch} to use when process.arch==arm64"
+    required: false
+    default: arm64
+
+  remap-arch-x64:
+    description: "{arch} to use when process.arch==x64"
+    required: false
+    default: x64
+
+  remap-ext-darwin:
+    description: "{ext} to use when process.platform==darwin"
+    require: true
+    default: tar.gz
+
+  remap-ext-linux:
+    description: "{ext} to use when process.platform==linux"
+    require: true
+    default: tar.gz
+
+  remap-ext-win32:
+    description: "{ext} to use when process.platform==win32"
+    require: true
+    default: zip
+
+outputs: {}
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  icon: 'arrow-down-circle'
+  color: blue
