@@ -6,3 +6,4 @@ restylers:
       include:
         - "**/*.yaml"
         - "!action.yml"
+  - "*"
