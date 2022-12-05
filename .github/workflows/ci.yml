@@ -59,6 +59,8 @@ jobs:
           version: 2.19.2
           url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}'
           url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
+          subdir: '{name}-{version}/bin'
+          subdir-win32: '{name}-{version}'
           os-win32: windows
           arch-x64: x86_64
           arch-linux-x64: amd64

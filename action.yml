@@ -25,7 +25,6 @@ inputs:
       Subdirectory within the archive to find the executable(s). Supports the
       same interpolations as url.
 
-
   # Override url
 
   url-darwin: { description: "Override url when platform==darwin" }
