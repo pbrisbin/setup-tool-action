@@ -67,19 +67,21 @@ describe("getInputs", () => {
             return "0.0.0";
           case "url":
             return "https://example.com";
-          case "arch-x64":
+          case "arch":
             return "x86_64";
+          case "arch-darwin-x64":
+            return "arm";
           default:
             return null;
         }
       },
     };
 
-    const { arch: archArm } = getInputs("darwin", "arm", core);
-    const { arch: arch64 } = getInputs("linux", "x64", core);
+    const { arch: archDarwin } = getInputs("darwin", "x64", core);
+    const { arch: archLinux } = getInputs("linux", "x64", core);
 
-    expect(archArm).toEqual("arm");
-    expect(arch64).toEqual("x86_64");
+    expect(archDarwin).toEqual("arm");
+    expect(archLinux).toEqual("x86_64");
   });
 
   test("remapping arch by platform", () => {

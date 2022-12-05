@@ -34,7 +34,19 @@ steps:
 
 ## Inputs
 
-TODO: document this.
+- **name**
+
+- **version**
+
+- **url**
+
+- **subdir**
+
+- **os**
+
+- **arch**
+
+- **ext**
 
 See [`action.yml`](./action.yml) for a up to date and comprehensive details.
 
@@ -59,7 +71,7 @@ with:
   arch-x64: x86_64
 ```
 
-**Replaces**: https://github.com/haskell/actions/tree/main/hlint-setup
+**Can replace**: https://github.com/haskell/actions/tree/main/hlint-setup
 
 ### Dead Man's Snitch Field Agent
 
@@ -73,7 +85,7 @@ with:
   arch-x64: amd64
 ```
 
-**Replaces**: N/A
+**Can replace**: N/A
 
 ### Pandoc
 
@@ -83,12 +95,14 @@ with:
   version: 2.19.2
   url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}'
   url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
+  subdir: '{name}-{version}/bin'
+  subdir-win32: '{name}-{version}'
   os-win32: windows
   arch-x64: x86_64
   arch-linux-x64: amd64
 ```
 
-**Replaces**: https://github.com/r-lib/actions/tree/v2-branch/setup-pandoc
+**Can replace**: https://github.com/r-lib/actions/tree/v2-branch/setup-pandoc
 
 ### More...
 

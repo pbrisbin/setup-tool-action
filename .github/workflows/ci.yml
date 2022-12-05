@@ -40,7 +40,7 @@ jobs:
           subdir: '{name}-{version}'
           os-darwin: osx
           os-win32: windows
-          arch-x64: x86_64
+          arch: x86_64
       - run: hlint --version
 
       - uses: ./
@@ -50,7 +50,7 @@ jobs:
           url: "https://releases.deadmanssnitch.com/field-agent/{version}/{name}_{os}_{arch}.{ext}"
           os-darwin: macos
           os-win32: windows
-          arch-x64: amd64
+          arch: amd64
       - run: dms --version
 
       - uses: ./
@@ -62,6 +62,6 @@ jobs:
           subdir: '{name}-{version}/bin'
           subdir-win32: '{name}-{version}'
           os-win32: windows
-          arch-x64: x86_64
-          arch-linux-x64: amd64
+          arch: x86_64
+          arch-linux: amd64
       - run: pandoc --version

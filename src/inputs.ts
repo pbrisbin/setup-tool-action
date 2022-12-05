@@ -46,44 +46,40 @@ export function getInputs(
   osArch: Arch,
   core: Core
 ): Inputs {
-  const name = requireInput(core, ["name"]);
-  const version = requireInput(core, ["version"]);
-
-  const url = requireInput(core, [
-    `url-${platform}`,
-    `url-${platform}-${osArch}`,
-    "url",
-  ]);
-
-  const subdir = optionalInput(core, [
-    `subdir-${platform}`,
-    `subdir-${platform}-${osArch}`,
-    "subdir",
-  ]);
-
-  const os = optionalInputDefault(core, [`os-${platform}`], platform);
-
-  const arch = optionalInputDefault(
-    core,
-    [`arch-${platform}-${osArch}`, `arch-${osArch}`],
-    osArch
-  );
-
-  const ext = optionalInputDefault(
-    core,
-    [`ext-${platform}-${osArch}`, `ext-${platform}`],
-    inferExtension(platform)
-  );
-
   return {
-    name,
-    version,
-    url,
-    subdir,
-    os,
-    arch,
-    ext,
+    name: requireInput(core, ["name"]),
+    version: requireInput(core, ["version"]),
+    url: requireInput(core, specifiedInputs(platform, osArch, "url")),
+    subdir: optionalInput(core, specifiedInputs(platform, osArch, "subdir")),
+    os: optionalInputDefault(
+      core,
+      specifiedInputs(platform, osArch, "os"),
+      platform
+    ),
+    arch: optionalInputDefault(
+      core,
+      specifiedInputs(platform, osArch, "arch"),
+      osArch
+    ),
+    ext: optionalInputDefault(
+      core,
+      specifiedInputs(platform, osArch, "ext"),
+      inferExtension(platform)
+    ),
   };
+}
+
+function specifiedInputs(
+  platform: Platform,
+  arch: Arch,
+  input: string
+): string[] {
+  return [
+    `${input}-${platform}-${arch}`,
+    `${input}-${arch}`,
+    `${input}-${platform}`,
+    input,
+  ];
 }
 
 function requireInput(core: Core, inputs: string[]): string {
