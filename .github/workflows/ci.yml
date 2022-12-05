@@ -38,9 +38,9 @@ jobs:
           version: '3.5'
           url: 'https://github.com/ndmitchell/{name}/releases/download/v{version}/{name}-{version}-{arch}-{os}.{ext}'
           subdir: '{name}-{version}'
-          remap-os-darwin: osx
-          remap-os-win32: windows
-          remap-arch-x64: x86_64
+          os-darwin: osx
+          os-win32: windows
+          arch-x64: x86_64
       - run: hlint --version
 
       - uses: ./
@@ -48,7 +48,18 @@ jobs:
           name: dms
           version: latest
           url: "https://releases.deadmanssnitch.com/field-agent/{version}/{name}_{os}_{arch}.{ext}"
-          remap-os-darwin: macos
-          remap-os-win32: windows
-          remap-arch-x64: amd64
+          os-darwin: macos
+          os-win32: windows
+          arch-x64: amd64
       - run: dms --version
+
+      - uses: ./
+        with:
+          name: pandoc
+          version: 2.19.2
+          url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{arch}-{os}.{ext}'
+          url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
+          os-win32: windows
+          arch-x64: x86_64
+          arch-linux-x64: amd64
+      - run: pandoc --version

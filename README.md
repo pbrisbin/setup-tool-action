@@ -23,6 +23,15 @@ See _Examples_ for more details.
 
 ## Usage
 
+```yaml
+steps:
+  - uses: pbrisbin/setup-tool-action@v1
+    with:
+      name: my-tool
+      version: 1.0.0
+      url: 'http://releases.my-tool.com/{name}-{version}.{os}-{arch}.{ext}'
+```
+
 ## Inputs
 
 - **name**: a name for the tool being installed.

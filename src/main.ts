@@ -3,31 +3,7 @@ import * as tc from "@actions/tool-cache";
 import * as os from "os";
 import * as path from "path";
 import { interpolate } from "./interpolate";
-
-type Platform =
-  | "aix"
-  | "android"
-  | "cygwin"
-  | "darwin"
-  | "freebsd"
-  | "haiku"
-  | "linux"
-  | "netbsd"
-  | "openbsd"
-  | "sunos"
-  | "win32";
-
-type Arch =
-  | "arm"
-  | "arm64"
-  | "ia32"
-  | "mips"
-  | "mipsel"
-  | "ppc"
-  | "ppc64"
-  | "s390"
-  | "s390x"
-  | "x64";
+import { type Platform, type Arch, getInputs } from "./inputs";
 
 type PkgExtension = "tar.gz" | "zip";
 
@@ -65,29 +41,16 @@ interface ReleaseConfig {
   archive: ArchiveConfig;
 }
 
-function remapInput(name: string, input: string): string {
-  const value = core.getInput(`remap-${name}-${input}`);
-
-  if (!value) {
-    throw new Error(`
-      Unsupported value for ${name}: ${input}
-
-      Please report this to https://github.com/pbrisbin/setup-tool-action/issues.
-    `);
-  }
-
-  return value;
-}
-
 function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
-  const name = core.getInput("name", { required: true });
-  const version = core.getInput("version", { required: true });
-  const urlTemplate = core.getInput("url", { required: true });
-  const subdirTemplate = core.getInput("subdir");
-
-  const os = remapInput("os", platform);
-  const arch = remapInput("arch", osArch);
-  const ext = remapInput("ext", platform);
+  const {
+    name,
+    version,
+    url: urlTemplate,
+    subdir: subdirTemplate,
+    os,
+    arch,
+    ext,
+  } = getInputs(platform, osArch, core);
 
   const templateVars = { name, version, os, arch, ext };
   const url = interpolate(urlTemplate, templateVars);

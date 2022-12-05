@@ -19,59 +19,95 @@ inputs:
       {name} and {version} will match the other inputs. {os}, {arch} and {ext},
       will be inferred, but can be changed by setting the archive-extension-
       input.
+    required: false
 
-    required: true
+  url-os-darwin:
+    description: Override url when process.platform==darwin
+    required: false
+  url-os-linux:
+    description: Override url when process.platform==linux
+    required: false
+  url-os-win32:
+    description: Override url when process.platform==win32
+    required: false
 
   subdir:
     description: |
       Subdirectory within the archive to find the executable(s). Supports the
       same interpolations as url.
     required: false
+  subdir-os-darwin:
+    description: Override subdir when process.platform==darwin
+    required: false
+  subdir-os-linux:
+    description: Override subdir when process.platform==linux
+    required: false
+  subdir-os-win32:
+    description: Override subdir when process.platform==win32
+    required: false
 
   remap-os-darwin:
     description: "{os} to use when process.platform==darwin"
     require: false
-    default: darwin
 
   remap-os-linux:
     description: "{os} to use when process.platform==linux"
     require: false
-    default: linux
 
   remap-os-win32:
     description: "{os} to use when process.platform==win32"
     require: false
-    default: win32
 
   remap-arch-arm:
     description: "{arch} to use when process.arch==arm"
     required: false
-    default: arm
+  remap-arch-darwin-arm:
+    description: "{arch} to use when process.platform==darwin and process.arch==arm"
+    required: false
+  remap-arch-linux-arm:
+    description: "{arch} to use when process.platform==linux and process.arch==arm"
+    required: false
+  remap-arch-win32-arm:
+    description: "{arch} to use when process.platform==win32 and process.arch==arm"
+    required: false
 
   remap-arch-arm64:
     description: "{arch} to use when process.arch==arm64"
     required: false
-    default: arm64
+  remap-arch-darwin-arm64:
+    description: "{arch} to use when process.platform==darwin and process.arch==arm64"
+    required: false
+  remap-arch-linux-arm64:
+    description: "{arch} to use when process.platform==linux and process.arch==arm64"
+    required: false
+  remap-arch-win32-arm64:
+    description: "{arch} to use when process.platform==win32 and process.arch==arm64"
+    required: false
 
   remap-arch-x64:
     description: "{arch} to use when process.arch==x64"
     required: false
-    default: x64
+  remap-arch-darwin-x64:
+    description: "{arch} to use when process.platform==darwin and process.arch==x64"
+    required: false
+  remap-arch-linux-x64:
+    description: "{arch} to use when process.platform==linux and process.arch==x64"
+    required: false
+  remap-arch-win32-x64:
+    description: "{arch} to use when process.platform==win32 and process.arch==x64"
+    required: false
 
   remap-ext-darwin:
     description: "{ext} to use when process.platform==darwin"
-    require: true
-    default: tar.gz
+    require: false
 
   remap-ext-linux:
     description: "{ext} to use when process.platform==linux"
-    require: true
-    default: tar.gz
+    require: false
 
   remap-ext-win32:
     description: "{ext} to use when process.platform==win32"
-    require: true
-    default: zip
+    require: false
 
 outputs: {}
 

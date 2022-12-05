@@ -1,10 +1,6 @@
 import { getInputs } from "./inputs";
 
 describe("getInputs", () => {
-  // requires name
-  // requires version
-  // requires url or url-{platform}
-
   test("with only url specified", () => {
     const core = {
       getInput: (input: string): string | null => {
@@ -71,7 +67,7 @@ describe("getInputs", () => {
             return "0.0.0";
           case "url":
             return "https://example.com";
-          case "remap-arch-x64":
+          case "arch-x64":
             return "x86_64";
           default:
             return null;
@@ -96,9 +92,9 @@ describe("getInputs", () => {
             return "0.0.0";
           case "url":
             return "https://example.com";
-          case "remap-arch-linux-x64":
+          case "arch-linux-x64":
             return "amd64";
-          case "remap-arch-win32-x64":
+          case "arch-win32-x64":
             return "x86_64";
           default:
             return null;
@@ -125,7 +121,7 @@ describe("getInputs", () => {
             return "0.0.0";
           case "url":
             return "https://example.com";
-          case "remap-ext-win32":
+          case "ext-win32":
             return "7z";
           default:
             return null;

@@ -46,19 +46,32 @@ export function getInputs(
   osArch: Arch,
   core: Core
 ): Inputs {
-  const name = requireInput(core, "name");
-  const version = requireInput(core, "version");
-  const url = requireInputs(core, [`url-${platform}`, "url"]);
-  const subdir = optionalInputs(core, [`subdir-${platform}`, "subdir"]);
-  const os = defaultedInput(core, `remap-os-${platform}`, platform);
-  const arch = defaultedInputs(
+  const name = requireInput(core, ["name"]);
+  const version = requireInput(core, ["version"]);
+
+  const url = requireInput(core, [
+    `url-${platform}`,
+    `url-${platform}-${osArch}`,
+    "url",
+  ]);
+
+  const subdir = optionalInput(core, [
+    `subdir-${platform}`,
+    `subdir-${platform}-${osArch}`,
+    "subdir",
+  ]);
+
+  const os = optionalInputDefault(core, [`os-${platform}`], platform);
+
+  const arch = optionalInputDefault(
     core,
-    [`remap-arch-${platform}-${osArch}`, `remap-arch-${osArch}`],
+    [`arch-${platform}-${osArch}`, `arch-${osArch}`],
     osArch
   );
-  const ext = defaultedInput(
+
+  const ext = optionalInputDefault(
     core,
-    `remap-ext-${platform}`,
+    [`ext-${platform}-${osArch}`, `ext-${platform}`],
     inferExtension(platform)
   );
 
@@ -73,11 +86,7 @@ export function getInputs(
   };
 }
 
-function requireInput(core: Core, input: string): string {
-  return requireInputs(core, [input]);
-}
-
-function requireInputs(core: Core, inputs: string[]): string {
+function requireInput(core: Core, inputs: string[]): string {
   const value = inputs.map((x) => core.getInput(x)).find((x) => x);
 
   if (!value) {
@@ -87,16 +96,16 @@ function requireInputs(core: Core, inputs: string[]): string {
   return value;
 }
 
-function optionalInputs(core: Core, inputs: string[]): string | null {
+function optionalInput(core: Core, inputs: string[]): string | null {
   const value = inputs.map((x) => core.getInput(x)).find((x) => x);
   return value ? value : null;
 }
 
-function defaultedInput(core: Core, input: string, def: string): string {
-  return defaultedInputs(core, [input], def);
-}
-
-function defaultedInputs(core: Core, inputs: string[], def: string): string {
+function optionalInputDefault(
+  core: Core,
+  inputs: string[],
+  def: string
+): string {
   const value = inputs.map((x) => core.getInput(x)).find((x) => x);
   return value ? value : def;
 }
