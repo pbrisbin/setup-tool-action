@@ -19,8 +19,6 @@ allow the action to be used easily for *any* such case, and obviate any
 tool-specific actions or support cases for which a tool-specific action doesn't
 exist, without having to create one.
 
-See _Examples_ for more details.
-
 ## Usage
 
 ```yaml
@@ -34,27 +32,49 @@ steps:
 
 ## Inputs
 
-- **name**
+- **name**: the name of the tool being installed. Required.
 
-- **version**
+- **version**: the version of the tool being installed. Required.
 
-- **url**
+- **os**, **arch**, **ext**: change runner-specific values for use in **url**
+  and **subdir** template strings.
 
-- **subdir**
+  | Runner           | Platform / {os} | Arch / {arch} | {ext}    |
+  | ---              | ---             | ---           | ---      |
+  | `ubuntu-latest`  | `linux`         | `x64`         | `tar.gz` |
+  | `macOS-latest`   | `darwin`        | `x64`         | `tar.gz` |
+  | `windows-latest` | `win32`         | `x64`         | `zip`    |
 
-- **os**
+- **url**: the URL to the archive containing pre-built binaries. Required.
 
-- **arch**
+  This value can contain interpolations of the above inputs.
 
-- **ext**
+- **subdir**: a subdirectory within the archive where the executables live.
 
-See [`action.yml`](./action.yml) for a up to date and comprehensive details.
+  This value can contain the same interpolations as **url**.
+
+### Overriding Inputs by Platform/Arch
+
+All options besides **name** and **version** may be specified multiple times for
+specific platforms or architectures. They are checked in the following order
+(using `url`) and an example:
+
+- `url-<platform>-<arch>`
+- `url-<arch>`
+- `url-<platform>`
+- `url`
+
+**NOTE**: since all GitHub runners currently return `x64` for `process.arch`,
+that is the only value our inputs are setup to support. Therefore, specifying
+`url-<platform>-x64` will have the same outcome as `url-<platform>`, and
+specifying `url-x64` will have the same outcome as `url`. However, we recommend
+being explicit with the `x64` value if the tool you are installing does release
+architecture-specific archives, to ensure things continue to work if future
+architectures are added here.
 
 ## Outputs
 
 None.
-
-See [`action.yml`](./action.yml) for a up to date and comprehensive details.
 
 ## Examples
 
