@@ -26,13 +26,13 @@ inputs:
       same interpolations as url.
 
   os:
-    description: {os} to use instead of process.platform
+    description: "{os} to use instead of process.platform"
 
   arch:
-    description: {arch} to use instead of process.arch
+    description: "{arch} to use instead of process.arch"
 
   ext:
-    description: {ext} to use instead of inferring
+    description: "{ext} to use instead of inferring"
 
   url-darwin:        { description: "url when platform==darwin" }
   url-linux:         { description: "url when platform==linux" }
