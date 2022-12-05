@@ -1,5 +1,5 @@
-name: 'Setup any binary tool'
-description: 'Cached download of any binary release'
+name: "Setup any binary tool"
+description: "Cached download of any binary release"
 inputs:
   name:
     description: "Name of the tool"
@@ -73,8 +73,8 @@ inputs:
 outputs: {}
 
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"
 branding:
-  icon: 'arrow-down-circle'
+  icon: "arrow-down-circle"
   color: blue
