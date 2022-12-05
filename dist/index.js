@@ -9,32 +9,25 @@
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getInputs = void 0;
 function getInputs(platform, osArch, core) {
-    var name = requireInput(core, ["name"]);
-    var version = requireInput(core, ["version"]);
-    var url = requireInput(core, [
-        "url-".concat(platform),
-        "url-".concat(platform, "-").concat(osArch),
-        "url",
-    ]);
-    var subdir = optionalInput(core, [
-        "subdir-".concat(platform),
-        "subdir-".concat(platform, "-").concat(osArch),
-        "subdir",
-    ]);
-    var os = optionalInputDefault(core, ["os-".concat(platform)], platform);
-    var arch = optionalInputDefault(core, ["arch-".concat(platform, "-").concat(osArch), "arch-".concat(osArch)], osArch);
-    var ext = optionalInputDefault(core, ["ext-".concat(platform, "-").concat(osArch), "ext-".concat(platform)], inferExtension(platform));
     return {
-        name: name,
-        version: version,
-        url: url,
-        subdir: subdir,
-        os: os,
-        arch: arch,
-        ext: ext,
+        name: requireInput(core, ["name"]),
+        version: requireInput(core, ["version"]),
+        url: requireInput(core, specifiedInputs(platform, osArch, "url")),
+        subdir: optionalInput(core, specifiedInputs(platform, osArch, "subdir")),
+        os: optionalInputDefault(core, specifiedInputs(platform, osArch, "os"), platform),
+        arch: optionalInputDefault(core, specifiedInputs(platform, osArch, "arch"), osArch),
+        ext: optionalInputDefault(core, specifiedInputs(platform, osArch, "ext"), inferExtension(platform)),
     };
 }
 exports.getInputs = getInputs;
+function specifiedInputs(platform, arch, input) {
+    return [
+        "".concat(input, "-").concat(platform, "-").concat(arch),
+        "".concat(input, "-").concat(arch),
+        "".concat(input, "-").concat(platform),
+        input,
+    ];
+}
 function requireInput(core, inputs) {
     var value = inputs.map(function (x) { return core.getInput(x); }).find(function (x) { return x; });
     if (!value) {
