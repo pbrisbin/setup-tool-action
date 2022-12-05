@@ -11,7 +11,7 @@ tools are necessary to wrap it into something useful. For the most part, the
 wrapping is required to manage variation in the release URLs such as the
 position and names used for things like "os" or "architecture".
 
-[tc]: #todo
+[tc]: https://github.com/actions/toolkit/tree/main/packages/tool-cache
 
 This doesn't scale. Instead, this action abstracts over that and offers good
 ergonomics for users to specify any variation directly via `inputs`. This should
