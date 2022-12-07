@@ -126,7 +126,7 @@ with:
 
 ### More...
 
-If you use this action successful for another tool, please open a PR adding it
+If you use this action successfully for another tool, please open a PR adding it
 to the CI matrix and this README.
 
 ---
