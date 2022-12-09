@@ -5,7 +5,7 @@ import * as path from "path";
 import { interpolate } from "./interpolate";
 import { type Platform, type Arch, getInputs } from "./inputs";
 
-type PkgExtension = "tar.gz" | "zip";
+type PkgExtension = "tar.gz" | "zip" | "7z" | "xar";
 
 function getExtract(
   ext: PkgExtension
@@ -15,13 +15,11 @@ function getExtract(
       return tc.extractTar;
     case "zip":
       return tc.extractZip;
+    case "7z":
+      return tc.extract7z;
+    case "xar":
+      return tc.extractXar;
   }
-
-  // TODO:
-  //   pkg -> extractXar
-  //   7z -> extract7z
-  //   ? -> extractZipWin
-  //   ? -> extractZipNix
 }
 
 interface ToolConfig {
