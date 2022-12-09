@@ -151,6 +151,10 @@ function getExtract(ext) {
             return tc.extractTar;
         case "zip":
             return tc.extractZip;
+        case "7z":
+            return tc.extract7z;
+        case "xar":
+            return tc.extractXar;
     }
 }
 function mkReleaseConfig(platform, osArch) {
