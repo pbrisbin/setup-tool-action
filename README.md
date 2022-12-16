@@ -53,6 +53,8 @@ steps:
 
   This value can contain the same interpolations as **url**.
 
+- **github-token**: see _Releases in Private GitHub Repositories_
+
 ### Overriding Inputs by Platform/Arch
 
 All options besides **name** and **version** may be specified multiple times for
@@ -71,6 +73,21 @@ specifying `url-x64` will have the same outcome as `url`. However, we recommend
 being explicit with the `x64` value if the tool you are installing does release
 architecture-specific archives, to ensure things continue to work if future
 architectures are added here.
+
+## Releases in Private GitHub Repositories
+
+To download an asset from a Release in a private GitHub repository,
+
+- Use the URL to the asset as if you were in an authenticated browser (i.e. as
+  if it were public)
+- Set `github-token` to a token with access to the private repository
+
+The action will parse the `url` for `owner/repo`, `tag` and asset `name`, then
+use the GitHub API to find the correct `/releases/assets/{asset-id}` URL and
+then download that, all using the given token.
+
+**NOTE**: This currently only works for URLs on `github.com`. PRs welcome if
+there's a way to support enterprise or other setups.
 
 ## Outputs
 
