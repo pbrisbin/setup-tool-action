@@ -102,7 +102,7 @@ function findReleaseAsset(url, githubToken) {
                     }
                     core.info("Located asset, ".concat(asset.id, ": ").concat(asset.name));
                     return [2, {
-                            url: "https://api.github.com/repos/".concat(owner, "/").concat(repo, "/releases/assets/").concat(asset.id),
+                            url: asset.url,
                             auth: "token ".concat(githubToken),
                             headers: { Accept: "application/octet-stream" },
                         }];
