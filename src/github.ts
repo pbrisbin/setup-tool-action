@@ -52,7 +52,7 @@ export async function findReleaseAsset(
   core.info(`Located asset, ${asset.id}: ${asset.name}`);
 
   return {
-    url: `https://api.github.com/repos/${owner}/${repo}/releases/assets/${asset.id}`,
+    url: asset.url,
     auth: `token ${githubToken}`,
     headers: { Accept: "application/octet-stream" },
   };
