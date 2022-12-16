@@ -71,7 +71,11 @@ inputs:
   ext-win32-x64:     { description: "{ext} to use when platform==win33 and arch==x64" }
 
   github-token:
-    description: "TODO"
+    description: |
+      If present, and `url` is to a GitHub release asset, we will assume it's
+      private and use this token to download the asset through the GitHub API.
+
+      https://docs.github.com/en/rest/releases/assets?apiVersion=2022-11-28#get-a-release-asset
 
 outputs: {}
 
