@@ -2,6 +2,7 @@ import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 import * as os from "os";
 import * as path from "path";
+import * as github from "./github";
 import { interpolate } from "./interpolate";
 import { type Platform, type Arch, getInputs } from "./inputs";
 
@@ -37,6 +38,7 @@ interface ArchiveConfig {
 interface ReleaseConfig {
   tool: ToolConfig;
   archive: ArchiveConfig;
+  githubToken: string | null;
 }
 
 function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
@@ -48,6 +50,7 @@ function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
     os,
     arch,
     ext,
+    githubToken,
   } = getInputs(platform, osArch, core);
 
   const templateVars = { name, version, os, arch, ext };
@@ -67,17 +70,35 @@ function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
       subdir,
       extract: getExtract(ext as PkgExtension),
     },
+    githubToken,
   };
 }
 
 async function download(releaseConfig: ReleaseConfig): Promise<string> {
-  const { tool, archive } = releaseConfig;
-  const { extract, subdir } = archive;
-  const archivePath = await tc.downloadTool(archive.url);
-  const archiveDest = path.join(os.homedir(), "tmp");
-  const extracted = await extract(archivePath, archiveDest);
-  const releaseFolder = subdir ? path.join(extracted, subdir) : extracted;
-  return await tc.cacheDir(releaseFolder, tool.name, tool.version, tool.arch);
+  const { tool, archive, githubToken } = releaseConfig;
+  const { subdir, extract } = archive;
+
+  core.debug(`url: ${archive.url}`);
+  core.debug(`github-token ${githubToken ? "present" : "not present"}`);
+
+  const { url, auth, headers } = githubToken
+    ? await core.group("Handling as private GitHub URL", async () => {
+        return await github.findReleaseAsset(archive.url, githubToken);
+      })
+    : { url: archive.url, auth: undefined, headers: undefined };
+
+  return core.group(`Downloading ${tool.name} from ${url}`, async () => {
+    const archivePath = await tc.downloadTool(
+      url,
+      undefined, // dest
+      auth,
+      headers
+    );
+    const archiveDest = path.join(os.homedir(), "tmp");
+    const extracted = await extract(archivePath, archiveDest);
+    const releaseFolder = subdir ? path.join(extracted, subdir) : extracted;
+    return await tc.cacheDir(releaseFolder, tool.name, tool.version, tool.arch);
+  });
 }
 
 async function findOrDownload(releaseConfig: ReleaseConfig): Promise<string> {
@@ -90,10 +111,7 @@ async function findOrDownload(releaseConfig: ReleaseConfig): Promise<string> {
     return existingDir;
   } else {
     core.debug(`${tool.name} not cached, so attempting to download`);
-    return core.group(
-      `Downloading ${tool.name} from ${url}`,
-      async () => await download(releaseConfig)
-    );
+    return await download(releaseConfig);
   }
 }
 

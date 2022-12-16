@@ -70,6 +70,9 @@ inputs:
   ext-linux-x64:     { description: "{ext} to use when platform==linux and arch==x64" }
   ext-win32-x64:     { description: "{ext} to use when platform==win33 and arch==x64" }
 
+  github-token:
+    description: "TODO"
+
 outputs: {}
 
 runs:

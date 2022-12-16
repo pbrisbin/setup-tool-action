@@ -39,6 +39,7 @@ export interface Inputs {
   os: string;
   arch: string;
   ext: string;
+  githubToken: string | null;
 }
 
 export function getInputs(
@@ -66,6 +67,7 @@ export function getInputs(
       specifiedInputs(platform, osArch, "ext"),
       inferExtension(platform)
     ),
+    githubToken: core.getInput("github-token", { required: false }),
   };
 }
 

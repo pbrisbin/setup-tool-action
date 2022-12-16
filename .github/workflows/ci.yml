@@ -65,3 +65,20 @@ jobs:
           arch: x86_64
           arch-linux: amd64
       - run: pandoc --version
+
+      #
+      # Random example from Freckle, that's a private repo. TODO: skip in
+      # forks.
+      #
+
+      - if: ${{ matrix.runner == 'ubuntu-latest' }}
+        uses: ./
+        with:
+          name: platform
+          version: 2.4.0.2
+          url: 'https://github.com/freckle/{name}/releases/download/v{version}/{name}-{arch}-{os}.{ext}'
+          github-token: ${{ secrets.PLATFORM_GITHUB_TOKEN }}
+          arch: x86_64
+          subdir: '{name}'
+      - if: ${{ matrix.runner == 'ubuntu-latest' }}
+        run: platform version
