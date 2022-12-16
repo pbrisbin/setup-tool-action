@@ -78,16 +78,16 @@ architectures are added here.
 
 To download an asset from a Release in a private GitHub repository,
 
-- Use the URL to the asset you'd find in an authenticate browser or on any
-  public repository.
+- Use the URL to the asset as if you were in an authenticated browser (i.e. as
+  if it were public)
 - Set `github-token` to a token with access to the private repository
 
-The action will use the `url` to query the GitHub API for the correct
-`/releases/assets/{asset-id}` URL and then download it, all using the given
-token.
+The action will parse the `url` for `owner/repo`, `tag` and asset `name`, then
+use the GitHub API to find the correct `/releases/assets/{asset-id}` URL and
+then download that, all using the given token.
 
-**NOTE**: This currently only works for `github.com`. PRs welcome if there's a
-way to support enterprise or other setups.
+**NOTE**: This currently only works for URLs on `github.com`. PRs welcome if
+there's a way to support enterprise or other setups.
 
 ## Outputs
 
