@@ -66,6 +66,16 @@ jobs:
           arch-linux: amd64
       - run: pandoc --version
 
+      - if: ${{ matrix.runner == 'ubuntu-latest' }}
+        uses: ./
+        with:
+          name: bluebook
+          version: 1.0.0.0
+          url: 'https://github.com/pbrisbin/{name}/releases/download/v{version}/{name}-{os}-{arch}'
+          no-extract: "true"
+      - if: ${{ matrix.runner == 'ubuntu-latest' }}
+        run: bluebook --help
+
       #
       # Random example from Freckle, that's a private repo. TODO: skip in
       # forks.

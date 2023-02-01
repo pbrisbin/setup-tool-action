@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 import * as os from "os";
@@ -8,9 +9,9 @@ import { type Platform, type Arch, getInputs } from "./inputs";
 
 type PkgExtension = "tar.gz" | "zip" | "7z" | "xar";
 
-function getExtract(
-  ext: PkgExtension
-): (archivePath: string, toDir: string) => Promise<string> {
+type Extract = (archivePath: string, toDir: string) => Promise<string>;
+
+function getExtract(ext: PkgExtension): Extract | null {
   switch (ext) {
     case "tar.gz":
       return tc.extractTar;
@@ -32,7 +33,7 @@ interface ToolConfig {
 interface ArchiveConfig {
   url: string;
   subdir: string | null;
-  extract: (archivePath: string, toDir: string) => Promise<string>;
+  extract: Extract | null;
 }
 
 interface ReleaseConfig {
@@ -50,6 +51,7 @@ function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
     os,
     arch,
     ext,
+    noExtract,
     githubToken,
   } = getInputs(platform, osArch, core);
 
@@ -68,7 +70,7 @@ function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
     archive: {
       url,
       subdir,
-      extract: getExtract(ext as PkgExtension),
+      extract: noExtract ? null : getExtract(ext as PkgExtension),
     },
     githubToken,
   };
@@ -88,6 +90,16 @@ async function download(releaseConfig: ReleaseConfig): Promise<string> {
     : { url: archive.url, auth: undefined, headers: undefined };
 
   return core.group(`Downloading ${tool.name} from ${url}`, async () => {
+    if (!extract) {
+      core.info("Downloading without extraction");
+      const tmp = path.join(os.homedir(), "tmp", tool.name);
+      const dest = path.join(tmp, tool.name);
+      await tc.downloadTool(url, dest, auth, headers);
+      core.debug(`chmod 755 ${dest}`);
+      fs.chmodSync(dest, "755");
+      return await tc.cacheDir(tmp, tool.name, tool.version, tool.arch);
+    }
+
     const archivePath = await tc.downloadTool(
       url,
       undefined, // dest
