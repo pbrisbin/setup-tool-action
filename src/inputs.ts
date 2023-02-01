@@ -39,6 +39,7 @@ export interface Inputs {
   os: string;
   arch: string;
   ext: string;
+  noExtract: boolean;
   githubToken: string | null;
 }
 
@@ -67,6 +68,7 @@ export function getInputs(
       specifiedInputs(platform, osArch, "ext"),
       inferExtension(platform)
     ),
+    noExtract: core.getInput("no-extract", { required: false }) === "true",
     githubToken: core.getInput("github-token", { required: false }),
   };
 }

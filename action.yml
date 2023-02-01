@@ -34,6 +34,12 @@ inputs:
   ext:
     description: "{ext} to use instead of inferring"
 
+  no-extract:
+    description: |
+      Do not extract the asset as an archive. Rather, expect that it represents
+      the (only) binary itself. It will be downloaded, cached, and available on
+      $PATH as {name}.
+
   url-darwin:        { description: "url when platform==darwin" }
   url-linux:         { description: "url when platform==linux" }
   url-win32:         { description: "url when platform==win32" }
