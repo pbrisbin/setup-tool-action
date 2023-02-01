@@ -152,6 +152,7 @@ function getInputs(platform, osArch, core) {
         os: optionalInputDefault(core, specifiedInputs(platform, osArch, "os"), platform),
         arch: optionalInputDefault(core, specifiedInputs(platform, osArch, "arch"), osArch),
         ext: optionalInputDefault(core, specifiedInputs(platform, osArch, "ext"), inferExtension(platform)),
+        noExtract: core.getInput("no-extract", { required: false }) === "true",
         githubToken: core.getInput("github-token", { required: false }),
     };
 }
@@ -275,6 +276,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+var fs = __importStar(__nccwpck_require__(7147));
 var core = __importStar(__nccwpck_require__(2186));
 var tc = __importStar(__nccwpck_require__(7784));
 var os = __importStar(__nccwpck_require__(2037));
@@ -295,7 +297,7 @@ function getExtract(ext) {
     }
 }
 function mkReleaseConfig(platform, osArch) {
-    var _a = (0, inputs_1.getInputs)(platform, osArch, core), name = _a.name, version = _a.version, urlTemplate = _a.url, subdirTemplate = _a.subdir, os = _a.os, arch = _a.arch, ext = _a.ext, githubToken = _a.githubToken;
+    var _a = (0, inputs_1.getInputs)(platform, osArch, core), name = _a.name, version = _a.version, urlTemplate = _a.url, subdirTemplate = _a.subdir, os = _a.os, arch = _a.arch, ext = _a.ext, noExtract = _a.noExtract, githubToken = _a.githubToken;
     var templateVars = { name: name, version: version, os: os, arch: arch, ext: ext };
     var url = (0, interpolate_1.interpolate)(urlTemplate, templateVars);
     var subdir = subdirTemplate
@@ -310,7 +312,7 @@ function mkReleaseConfig(platform, osArch) {
         archive: {
             url: url,
             subdir: subdir,
-            extract: getExtract(ext),
+            extract: noExtract ? null : getExtract(ext),
         },
         githubToken: githubToken,
     };
@@ -344,19 +346,31 @@ function download(releaseConfig) {
                 case 3:
                     _a = _b, url = _a.url, auth = _a.auth, headers = _a.headers;
                     return [2, core.group("Downloading ".concat(tool.name, " from ").concat(url), function () { return __awaiter(_this, void 0, void 0, function () {
-                            var archivePath, archiveDest, extracted, releaseFolder;
+                            var tmp, dest, archivePath, archiveDest, extracted, releaseFolder;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4, tc.downloadTool(url, undefined, auth, headers)];
+                                    case 0:
+                                        if (!!extract) return [3, 3];
+                                        core.info("Downloading without extraction");
+                                        tmp = path.join(os.homedir(), "tmp", tool.name);
+                                        dest = path.join(tmp, tool.name);
+                                        return [4, tc.downloadTool(url, dest, auth, headers)];
                                     case 1:
+                                        _a.sent();
+                                        core.debug("chmod 755 ".concat(dest));
+                                        fs.chmodSync(dest, "755");
+                                        return [4, tc.cacheDir(tmp, tool.name, tool.version, tool.arch)];
+                                    case 2: return [2, _a.sent()];
+                                    case 3: return [4, tc.downloadTool(url, undefined, auth, headers)];
+                                    case 4:
                                         archivePath = _a.sent();
                                         archiveDest = path.join(os.homedir(), "tmp");
                                         return [4, extract(archivePath, archiveDest)];
-                                    case 2:
+                                    case 5:
                                         extracted = _a.sent();
                                         releaseFolder = subdir ? path.join(extracted, subdir) : extracted;
                                         return [4, tc.cacheDir(releaseFolder, tool.name, tool.version, tool.arch)];
-                                    case 3: return [2, _a.sent()];
+                                    case 6: return [2, _a.sent()];
                                 }
                             });
                         }); })];
