@@ -23,7 +23,7 @@ exist, without having to create one.
 
 ```yaml
 steps:
-  - uses: pbrisbin/setup-tool-action@v1
+  - uses: pbrisbin/setup-tool-action@v2
     with:
       name: my-tool
       version: 1.0.0
