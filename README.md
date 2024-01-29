@@ -21,6 +21,19 @@ exist, without having to create one.
 
 ## Usage
 
+Look at the typical URLs for the binary assets you intend to install. Compare
+what you see to the default values for `os`, `arch`, and `ext` for the runners
+you plan to use:
+
+| Runner           | Platform / {os} | Arch / {arch} | {ext}    |
+| ---------------- | --------------- | ------------- | -------- |
+| `ubuntu-latest`  | `linux`         | `x64`         | `tar.gz` |
+| `macOS-latest`   | `darwin`        | `x64`         | `tar.gz` |
+| `windows-latest` | `win32`         | `x64`         | `zip`    |
+
+If the values are correct across all the runners you use, you can do the
+following:
+
 ```yaml
 steps:
   - uses: pbrisbin/setup-tool-action@v2
@@ -29,6 +42,59 @@ steps:
       version: 1.0.0
       url: "http://releases.my-tool.com/{name}-{version}.{os}-{arch}.{ext}"
 ```
+
+If the values are _not_ correct, you can supply addition inputs to correct them.
+
+Let's say you are only installing on Linux, and it uses `x86_64` for `arch`:
+
+```yaml
+steps:
+  - uses: pbrisbin/setup-tool-action@v2
+    with:
+      name: my-tool
+      version: 1.0.0
+      url: "http://releases.my-tool.com/{name}-{version}.{os}-{arch}.{ext}"
+      arch: x86_64
+```
+
+All inputs besides `name` and `version` have suffixed versions that can be used
+to supply _different_ values by `platform` and/or `arch`:
+
+- `<input>-<platform>-<arch>`
+- `<input>-<arch>`
+- `<input>-<platform>`
+- `<input>`
+
+The first match found is used.
+
+Now let's say you were installing on Linux and MacOS, and you only want to
+change the `arch` for Linux, that would look like:
+
+```yaml
+steps:
+  - uses: pbrisbin/setup-tool-action@v2
+    with:
+      name: my-tool
+      version: 1.0.0
+      url: "http://releases.my-tool.com/{name}-{version}.{os}-{arch}.{ext}"
+      arch-linux: x86_64
+```
+
+As a final example, let's also say this tool uses the legacy term `osx` for
+MacOS artifacts:
+
+```yaml
+steps:
+  - uses: pbrisbin/setup-tool-action@v2
+    with:
+      name: my-tool
+      version: 1.0.0
+      url: "http://releases.my-tool.com/{name}-{version}.{os}-{arch}.{ext}"
+      os-darwin: osx
+      arch-linux: x86_64
+```
+
+For more complex examples, see below or the project's test suite.
 
 ## Inputs
 
@@ -39,12 +105,6 @@ steps:
 - **os**, **arch**, **ext**: change runner-specific values for use in **url**
   and **subdir** template strings.
 
-  | Runner           | Platform / {os} | Arch / {arch} | {ext}    |
-  | ---------------- | --------------- | ------------- | -------- |
-  | `ubuntu-latest`  | `linux`         | `x64`         | `tar.gz` |
-  | `macOS-latest`   | `darwin`        | `x64`         | `tar.gz` |
-  | `windows-latest` | `win32`         | `x64`         | `zip`    |
-
 - **url**: the URL to the archive containing pre-built binaries. Required.
 
   This value can contain interpolations of the above inputs.
@@ -53,26 +113,10 @@ steps:
 
   This value can contain the same interpolations as **url**.
 
+- **no-extract**: Do not extract the asset as an archive. Rather, expect that it
+  represents the binary itself.
+
 - **github-token**: see _Releases in Private GitHub Repositories_
-
-### Overriding Inputs by Platform/Arch
-
-All options besides **name** and **version** may be specified multiple times for
-specific platforms or architectures. They are checked in the following order
-(using `url`) and an example:
-
-- `url-<platform>-<arch>`
-- `url-<arch>`
-- `url-<platform>`
-- `url`
-
-**NOTE**: since all GitHub runners currently return `x64` for `process.arch`,
-that is the only value our inputs are setup to support. Therefore, specifying
-`url-<platform>-x64` will have the same outcome as `url-<platform>`, and
-specifying `url-x64` will have the same outcome as `url`. However, we recommend
-being explicit with the `x64` value if the tool you are installing does release
-architecture-specific archives, to ensure things continue to work if future
-architectures are added here.
 
 ## Releases in Private GitHub Repositories
 
@@ -108,7 +152,7 @@ with:
   arch-x64: x86_64
 ```
 
-**Can replace**: https://github.com/haskell/actions/tree/main/hlint-setup
+**Can replace**: https://github.com/haskell-actions/hlint-setup
 
 ### Dead Man's Snitch Field Agent
 
