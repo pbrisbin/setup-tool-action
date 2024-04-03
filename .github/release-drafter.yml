@@ -9,13 +9,16 @@ template: |
 categories:
   - title: '🚀 Features'
     labels:
+      - 'enhancement'
       - 'feature'
   - title: '🐛 Bug Fixes'
     labels:
+      - 'bug'
       - 'fix'
   - title: '🧰 Maintenance'
     labels:
       - 'chore'
+      - 'dependencies'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 version-resolver:
   major:
@@ -23,5 +26,6 @@ version-resolver:
       - 'breaking'
   minor:
     labels:
+      - 'enhancement'
       - 'feature'
   default: patch
