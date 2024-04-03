@@ -13,12 +13,16 @@ on:
 env:
   TAG_NAME: ${{ github.event.inputs.tag-name || github.event.release.tag_name }}
 
-permissions:
-  contents: write
+permissions: write-all
+# permissions:
+#   contents: write
 
 jobs:
   update-tag:
     runs-on: ubuntu-latest
+    environment:
+      # Note: this environment is protected
+      name: Release
     steps:
       - uses: actions/publish-action@v0.3.0
         with:
