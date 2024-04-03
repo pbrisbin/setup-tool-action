@@ -18,6 +18,9 @@ categories:
   - title: '🧰 Maintenance'
     labels:
       - 'chore'
+  - title: '⬆️ Dependencies'
+    collapse-after: 3
+    labels:
       - 'dependencies'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 version-resolver:
