@@ -13,9 +13,8 @@ on:
 env:
   TAG_NAME: ${{ github.event.inputs.tag-name || github.event.release.tag_name }}
 
-permissions: write-all
-# permissions:
-#   contents: write
+permissions:
+  contents: write
 
 jobs:
   update-tag:
