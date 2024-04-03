@@ -4,6 +4,14 @@ on:
   release:
     types:
       - released
+  workflow_dispatch:
+    inputs:
+      tag-name:
+        description: 'Tag name that the major tag will point to'
+        required: true
+
+env:
+  TAG_NAME: ${{ github.event.inputs.tag-name || github.event.release.tag_name }}
 
 permissions:
   contents: write
