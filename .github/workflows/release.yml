@@ -30,10 +30,21 @@ jobs:
         with:
           script: |
             async function run() {
+              const {data: tag} = await github.rest.git.getRef({
+                ...context.repo,
+                ref: "tags/v2.0.1"
+              });
+
+              console.log(tag);
+
+              const sha = tag.object.sha;
+
+              console.log(sha);
+
               const x = await github.rest.git.updateRef({
                 ...context.repo,
                 ref: "v2",
-                sha: "v2.0.1",
+                sha: sha,
                 force: true
               });
 
