@@ -31,8 +31,8 @@ jobs:
           ref: ${{ steps.prep.outputs.sha }}
 
       - run: |
-          git tag --force "$TAG" "$SHA"
-          git push --tags
+          git tag "$TAG" "$SHA"
+          git push --tags --force
         env:
           SHA: ${{ steps.prep.outputs.sha }}
           TAG: ${{ steps.prep.outputs.major-tag }}
