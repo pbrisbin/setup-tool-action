@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - id: prep
-        uses: pbrisbin/publish-action/pb/v0.4
+        uses: pbrisbin/publish-action@pb/v0.4
         with:
           update-tag: false
 
