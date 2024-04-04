@@ -26,7 +26,8 @@ jobs:
       # - uses: actions/publish-action@v0.3.0
       #   with:
       #     source-tag: ${{ env.TAG_NAME }}
-      - uses: actions/github-script@v7
+      - id: sha-for-tag
+        uses: actions/github-script@v7
         with:
           script: |
             async function run() {
@@ -41,14 +42,15 @@ jobs:
 
               console.log(sha);
 
-              const x = await github.rest.git.updateRef({
-                ...context.repo,
-                ref: "v2",
-                sha: sha,
-                force: true
-              });
-
-              console.log(x);
+              return sha
             }
 
-            await run();
+            return await run();
+          result-encoding: string
+
+      - uses: actions/checkout@v4
+      - run:
+          git tag --force v2 "$SHA"
+          git push --tags
+        env:
+          SHA: ${{ steps.sha-for-tag.outputs.result }}
