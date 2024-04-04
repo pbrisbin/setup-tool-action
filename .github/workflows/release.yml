@@ -49,6 +49,8 @@ jobs:
           result-encoding: string
 
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # ensure we get the sha we want to tag
       - run: |
           git tag --force v2 "$SHA"
           git push --tags
