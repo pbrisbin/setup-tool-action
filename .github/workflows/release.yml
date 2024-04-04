@@ -23,6 +23,21 @@ jobs:
       # Note: this environment is protected
       name: Release
     steps:
-      - uses: actions/publish-action@v0.3.0
+      # - uses: actions/publish-action@v0.3.0
+      #   with:
+      #     source-tag: ${{ env.TAG_NAME }}
+      - uses: actions/github-script@v7
         with:
-          source-tag: ${{ env.TAG_NAME }}
+          script: |
+            async function run() {
+              const x = await github.rest.git.updateRef({
+                ...context.repo,
+                ref: "v2",
+                sha: "v2.0.1",
+                force: true
+              });
+
+              console.log(x);
+            }
+
+            await run();
