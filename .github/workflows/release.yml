@@ -27,6 +27,7 @@ jobs:
       - id: prep
         uses: pbrisbin/publish-action@pb/v0.4
         with:
+          source-tag: ${{ env.TAG_NAME }}
           update-tag: false
 
       - uses: actions/checkout@v4
