@@ -19,10 +19,6 @@ permissions:
 jobs:
   update-tag:
     runs-on: ubuntu-latest
-    environment:
-      # Note: this environment is protected
-      name: Release
-
     steps:
       - id: prep
         uses: pbrisbin/publish-action@pb/v0.4
