@@ -49,7 +49,7 @@ jobs:
           result-encoding: string
 
       - uses: actions/checkout@v4
-      - run:
+      - run: |
           git tag --force v2 "$SHA"
           git push --tags
         env:
