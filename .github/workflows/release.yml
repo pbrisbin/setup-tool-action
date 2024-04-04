@@ -15,24 +15,28 @@ env:
 
 permissions:
   contents: write
+  workflows: write
 
 jobs:
   update-tag:
     runs-on: ubuntu-latest
     steps:
-      - id: prep
-        uses: pbrisbin/publish-action@pb/v0.4
+      - uses: actions/publish-action@v0.3.0
         with:
           source-tag: ${{ env.TAG_NAME }}
-          update-tag: false
+      # - id: prep
+      #   uses: pbrisbin/publish-action@pb/v0.4
+      #   with:
+      #     source-tag: ${{ env.TAG_NAME }}
+      #     update-tag: false
 
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.prep.outputs.sha }}
+      # - uses: actions/checkout@v4
+      #   with:
+      #     ref: ${{ steps.prep.outputs.sha }}
 
-      - run: |
-          git tag "$TAG" "$SHA"
-          git push --tags --force
-        env:
-          SHA: ${{ steps.prep.outputs.sha }}
-          TAG: ${{ steps.prep.outputs.major-tag }}
+      # - run: |
+      #     git tag "$TAG" "$SHA"
+      #     git push --tags --force
+      #   env:
+      #     SHA: ${{ steps.prep.outputs.sha }}
+      #     TAG: ${{ steps.prep.outputs.major-tag }}
