@@ -1,11 +1,14 @@
 name-template: 'v$RESOLVED_VERSION'
+
 tag-template: 'v$RESOLVED_VERSION'
+
 template: |
   # Changelog
 
   $CHANGES
 
   See details of [all code changes](https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION) since previous release.
+
 categories:
   - title: '🚀 Features'
     labels:
@@ -22,7 +25,9 @@ categories:
     collapse-after: 3
     labels:
       - 'dependencies'
+
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+
 version-resolver:
   major:
     labels:
@@ -32,3 +37,16 @@ version-resolver:
       - 'enhancement'
       - 'feature'
   default: patch
+
+autolabeler:
+  - label: 'fix'
+    title:
+      - '/^fix[(:]/i'
+  - label: 'feature'
+    title:
+      - '/^feat[(:]/i'
+  - label: 'breaking'
+    title:
+      - '/^.*!: '
+    body:
+      - '/BREAKING CHANGE/'
