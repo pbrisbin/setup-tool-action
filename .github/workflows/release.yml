@@ -13,10 +13,6 @@ on:
 env:
   TAG_NAME: ${{ github.event.inputs.tag-name || github.event.release.tag_name }}
 
-permissions:
-  contents: write
-  workflows: write
-
 jobs:
   update-tag:
     runs-on: ubuntu-latest
@@ -24,19 +20,4 @@ jobs:
       - uses: actions/publish-action@v0.3.0
         with:
           source-tag: ${{ env.TAG_NAME }}
-      # - id: prep
-      #   uses: pbrisbin/publish-action@pb/v0.4
-      #   with:
-      #     source-tag: ${{ env.TAG_NAME }}
-      #     update-tag: false
-
-      # - uses: actions/checkout@v4
-      #   with:
-      #     ref: ${{ steps.prep.outputs.sha }}
-
-      # - run: |
-      #     git tag "$TAG" "$SHA"
-      #     git push --tags --force
-      #   env:
-      #     SHA: ${{ steps.prep.outputs.sha }}
-      #     TAG: ${{ steps.prep.outputs.major-tag }}
+          token: ${{ secrets.RELEASE_GITHUB_TOKEN }}
