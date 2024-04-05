@@ -1,6 +1,7 @@
 name: Draft release
 
 on:
+  pull_request:
   push:
     branches:
       - main
