@@ -34,10 +34,10 @@ jobs:
 
       - uses: ./
         with:
-          name: 'hlint'
-          version: '3.5'
-          url: 'https://github.com/ndmitchell/{name}/releases/download/v{version}/{name}-{version}-{arch}-{os}.{ext}'
-          subdir: '{name}-{version}'
+          name: "hlint"
+          version: "3.5"
+          url: "https://github.com/ndmitchell/{name}/releases/download/v{version}/{name}-{version}-{arch}-{os}.{ext}"
+          subdir: "{name}-{version}"
           os-darwin: osx
           os-win32: windows
           arch: x86_64
@@ -57,10 +57,10 @@ jobs:
         with:
           name: pandoc
           version: 2.19.2
-          url: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}'
-          url-darwin: 'https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip'
-          subdir: '{name}-{version}/bin'
-          subdir-win32: '{name}-{version}'
+          url: "https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-{os}-{arch}.{ext}"
+          url-darwin: "https://github.com/jgm/{name}/releases/download/{version}/{name}-{version}-macOS.zip"
+          subdir: "{name}-{version}/bin"
+          subdir-win32: "{name}-{version}"
           os-win32: windows
           arch: x86_64
           arch-linux: amd64
@@ -71,7 +71,7 @@ jobs:
         with:
           name: bluebook
           version: 1.0.0.0
-          url: 'https://github.com/pbrisbin/{name}/releases/download/v{version}/{name}-{os}-{arch}'
+          url: "https://github.com/pbrisbin/{name}/releases/download/v{version}/{name}-{os}-{arch}"
           no-extract: "true"
       - if: ${{ matrix.runner == 'ubuntu-latest' }}
         run: bluebook --help
@@ -86,9 +86,9 @@ jobs:
         with:
           name: platform
           version: 2.4.0.2
-          url: 'https://github.com/freckle/{name}/releases/download/v{version}/{name}-{arch}-{os}.{ext}'
+          url: "https://github.com/freckle/{name}/releases/download/v{version}/{name}-{arch}-{os}.{ext}"
           github-token: ${{ secrets.PLATFORM_GITHUB_TOKEN }}
           arch: x86_64
-          subdir: '{name}'
+          subdir: "{name}"
       - if: ${{ matrix.runner == 'ubuntu-latest' && github.actor != 'dependabot[bot]' }}
         run: platform version
