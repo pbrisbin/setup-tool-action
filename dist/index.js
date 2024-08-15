@@ -66,7 +66,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.toGitHubAssetUrl = exports.findReleaseAsset = void 0;
+exports.findReleaseAsset = findReleaseAsset;
+exports.toGitHubAssetUrl = toGitHubAssetUrl;
 var core = __importStar(__nccwpck_require__(2186));
 var github = __importStar(__nccwpck_require__(5438));
 function findReleaseAsset(url, githubToken) {
@@ -110,7 +111,6 @@ function findReleaseAsset(url, githubToken) {
         });
     });
 }
-exports.findReleaseAsset = findReleaseAsset;
 function toGitHubAssetUrl(url) {
     var re = new RegExp([
         "^https://github.com",
@@ -131,7 +131,6 @@ function toGitHubAssetUrl(url) {
         name: match.groups["name"],
     };
 }
-exports.toGitHubAssetUrl = toGitHubAssetUrl;
 
 
 /***/ }),
@@ -142,7 +141,7 @@ exports.toGitHubAssetUrl = toGitHubAssetUrl;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getInputs = void 0;
+exports.getInputs = getInputs;
 function getInputs(platform, osArch, core) {
     return {
         name: requireInput(core, ["name"]),
@@ -156,7 +155,6 @@ function getInputs(platform, osArch, core) {
         githubToken: core.getInput("github-token", { required: false }),
     };
 }
-exports.getInputs = getInputs;
 function specifiedInputs(platform, arch, input) {
     return [
         "".concat(input, "-").concat(platform, "-").concat(arch),
@@ -198,7 +196,7 @@ function inferExtension(platform) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.interpolate = void 0;
+exports.interpolate = interpolate;
 function interpolate(str, vars) {
     var keys = Object.keys(vars);
     var re = new RegExp("{ *(".concat(keys.join("|"), ") *}"), "g");
@@ -206,7 +204,6 @@ function interpolate(str, vars) {
     var fn = "return `" + template + "`;";
     return new Function(fn).call(vars);
 }
-exports.interpolate = interpolate;
 
 
 /***/ }),
@@ -380,22 +377,19 @@ function download(releaseConfig) {
 }
 function findOrDownload(releaseConfig) {
     return __awaiter(this, void 0, void 0, function () {
-        var tool, archive, url, existingDir;
+        var tool, existingDir;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    tool = releaseConfig.tool, archive = releaseConfig.archive;
-                    url = archive.url;
-                    return [4, tc.find(tool.name, tool.version, tool.arch)];
-                case 1:
-                    existingDir = _a.sent();
-                    if (!existingDir) return [3, 2];
+                    tool = releaseConfig.tool;
+                    existingDir = tc.find(tool.name, tool.version, tool.arch);
+                    if (!existingDir) return [3, 1];
                     core.debug("Found cached ".concat(tool.name, " at ").concat(existingDir));
                     return [2, existingDir];
-                case 2:
+                case 1:
                     core.debug("".concat(tool.name, " not cached, so attempting to download"));
                     return [4, download(releaseConfig)];
-                case 3: return [2, _a.sent()];
+                case 2: return [2, _a.sent()];
             }
         });
     });
@@ -412,6 +406,7 @@ function run() {
                 case 1:
                     dir = _a.sent();
                     core.addPath(dir);
+                    core.setOutput("directory", dir);
                     core.info("".concat(config.tool.name, " ").concat(config.tool.version, " is now set up at ").concat(dir));
                     return [3, 3];
                 case 2:
