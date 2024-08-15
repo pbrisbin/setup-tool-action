@@ -14,77 +14,88 @@ inputs:
       URL to installation archive. This value may contain interpolations for
       name, version, os, arch, and extension.
 
-      http://example.com/binaries/{name}/{version}.{os}_{arch}.{ext}
+      `http://example.com/binaries/{name}/{version}.{os}_{arch}.{ext}`
 
-      {name} and {version} will match the other inputs. {os}, {arch} and {ext},
-      will be inferred, but can be changed by setting the archive-extension-
-      input.
+      `{name}` and `{version}` will match the other inputs. `{os}`, `{arch}` and
+      `{ext}`, will be inferred, but can be changed by setting additional
+      inputs.
 
   subdir:
     description: |
       Subdirectory within the archive to find the executable(s). Supports the
-      same interpolations as url.
+      same interpolations as `url`.
 
   os:
-    description: "{os} to use instead of process.platform"
+    description: "`{os}` to use instead of `process.platform`"
 
   arch:
-    description: "{arch} to use instead of process.arch"
+    description: "`{arch}` to use instead of `process.arch`"
 
   ext:
-    description: "{ext} to use instead of inferring"
+    description: "`{ext}` to use instead of inferring"
 
   no-extract:
     description: |
       Do not extract the asset as an archive. Rather, expect that it represents
       the (only) binary itself. It will be downloaded, cached, and available on
-      $PATH as {name}.
+      `$PATH` as `{name}`.
 
-  url-darwin: { description: "url when platform==darwin" }
-  url-linux: { description: "url when platform==linux" }
-  url-win32: { description: "url when platform==win32" }
-  url-x64: { description: "url when arch==x64" }
-  url-darwin-x64: { description: "url when platform==darwin and arch==x64" }
-  url-linux-x64: { description: "url when platform==linux and arch==x64" }
-  url-win32-x64: { description: "url when platform==win33 and arch==x64" }
-  subdir-darwin: { description: "subdir when platform==darwin" }
-  subdir-linux: { description: "subdir when platform==linux" }
-  subdir-win32: { description: "subdir when platform==win32" }
-  subdir-x64: { description: "subdir when arch==x64" }
+  url-darwin: { description: "`url` when `platform==darwin`" }
+  url-linux: { description: "`url` when `platform==linux`" }
+  url-win32: { description: "`url` when `platform==win32`" }
+  url-x64: { description: "`url` when `arch==x64`" }
+  url-darwin-x64:
+    { description: "`url` when `platform==darwin` and `arch==x64`" }
+  url-darwin-arm64:
+    { description: "`url` when `platform==darwin` and `arch==arm64`" }
+  url-linux-x64: { description: "`url` when `platform==linux` and `arch==x64`" }
+  url-win32-x64: { description: "`url` when `platform==win33` and `arch==x64`" }
+  subdir-darwin: { description: "`subdir` when `platform==darwin`" }
+  subdir-linux: { description: "`subdir` when `platform==linux`" }
+  subdir-win32: { description: "`subdir` when `platform==win32`" }
+  subdir-x64: { description: "`subdir` when `arch==x64`" }
   subdir-darwin-x64:
-    { description: "subdir when platform==darwin and arch==x64" }
-  subdir-linux-x64: { description: "subdir when platform==linux and arch==x64" }
-  subdir-win32-x64: { description: "subdir when platform==win33 and arch==x64" }
-  os-darwin: { description: "{os} to use when platform==darwin" }
-  os-linux: { description: "{os} to use when platform==linux" }
-  os-win32: { description: "{os} to use when platform==win32" }
-  os-x64: { description: "{os} to use when arch==x64" }
+    { description: "`subdir` when `platform==darwin` and `arch==x64`" }
+  subdir-linux-x64:
+    { description: "`subdir` when `platform==linux` and `arch==x64`" }
+  subdir-win32-x64:
+    { description: "`subdir` when `platform==win33` and `arch==x64`" }
+  os-darwin: { description: "`{os}` to use when `platform==darwin`" }
+  os-linux: { description: "`{os}` to use when `platform==linux`" }
+  os-win32: { description: "`{os}` to use when `platform==win32`" }
+  os-x64: { description: "`{os}` to use when `arch==x64`" }
   os-darwin-x64:
-    { description: "{os} to use when platform==darwin and arch==x64" }
+    { description: "`{os}` to use when `platform==darwin` and `arch==x64`" }
+  os-darwin-arm64:
+    { description: "`{os}` to use when `platform==darwin` and `arch==arm64`" }
   os-linux-x64:
-    { description: "{os} to use when platform==linux and arch==x64" }
+    { description: "`{os}` to use when `platform==linux` and `arch==x64`" }
   os-win32-x64:
-    { description: "{os} to use when platform==win32 and arch==x64" }
-  arch-darwin: { description: "{arch} to use when platform==darwin" }
-  arch-linux: { description: "{arch} to use when platform==linux" }
-  arch-win32: { description: "{arch} to use when platform==win32" }
-  arch-x64: { description: "{arch} to use when arch==x64" }
+    { description: "`{os}` to use when `platform==win32` and `arch==x64`" }
+  arch-darwin: { description: "`{arch}` to use when `platform==darwin`" }
+  arch-linux: { description: "`{arch}` to use when `platform==linux`" }
+  arch-win32: { description: "`{arch}` to use when `platform==win32`" }
+  arch-x64: { description: "`{arch}` to use when `arch==x64`" }
   arch-darwin-x64:
-    { description: "{arch} to use when platform==darwin and arch==x64" }
+    { description: "`{arch}` to use when `platform==darwin` and `arch==x64`" }
+  arch-darwin-arm64:
+    { description: "`{arch}` to use when `platform==darwin` and `arch==arm64`" }
   arch-linux-x64:
-    { description: "{arch} to use when platform==linux and arch==x64" }
+    { description: "`{arch}` to use when `platform==linux` and `arch==x64`" }
   arch-win32-x64:
-    { description: "{arch} to use when platform==win32 and arch==x64" }
-  ext-darwin: { description: "{ext} to use when platform==darwin" }
-  ext-linux: { description: "{ext} to use when platform==linux" }
-  ext-win32: { description: "{ext} to use when platform==win32" }
-  ext-x64: { description: "{ext} to use when arch==x64" }
+    { description: "`{arch}` to use when `platform==win32` and `arch==x64`" }
+  ext-darwin: { description: "`{ext}` to use when `platform==darwin`" }
+  ext-linux: { description: "`{ext}` to use when `platform==linux`" }
+  ext-win32: { description: "`{ext}` to use when `platform==win32`" }
+  ext-x64: { description: "`{ext}` to use when `arch==x64`" }
   ext-darwin-x64:
-    { description: "{ext} to use when platform==darwin and arch==x64" }
+    { description: "`{ext}` to use when `platform==darwin` and `arch==x64`" }
+  ext-darwin-arm64:
+    { description: "`{ext}` to use when `platform==darwin` and `arch==arm64`" }
   ext-linux-x64:
-    { description: "{ext} to use when platform==linux and arch==x64" }
+    { description: "`{ext}` to use when `platform==linux` and `arch==x64`" }
   ext-win32-x64:
-    { description: "{ext} to use when platform==win33 and arch==x64" }
+    { description: "`{ext}` to use when `platform==win33` and `arch==x64`" }
 
   github-token:
     description: |
