@@ -32,7 +32,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./
+      - id: setup-hlint
+        uses: ./
         with:
           name: "hlint"
           version: "3.5"
@@ -41,9 +42,11 @@ jobs:
           os-darwin: osx
           os-win32: windows
           arch: x86_64
+      - run: ls -l '${{ steps.setup-hlint.outputs.directory }}'
       - run: hlint --version
 
-      - uses: ./
+      - id: setup-dms
+        uses: ./
         with:
           name: dms
           version: latest
@@ -51,9 +54,11 @@ jobs:
           os-darwin: macos
           os-win32: windows
           arch: amd64
+      - run: ls -l '${{ steps.setup-dms.outputs.directory }}'
       - run: dms --version
 
-      - uses: ./
+      - id: setup-pandoc
+        uses: ./
         with:
           name: pandoc
           version: 2.19.2
@@ -64,6 +69,7 @@ jobs:
           os-win32: windows
           arch: x86_64
           arch-linux: amd64
+      - run: ls -l '${{ steps.setup-pandoc.outputs.directory }}'
       - run: pandoc --version
 
       - if: ${{ matrix.runner == 'ubuntu-latest' }}
