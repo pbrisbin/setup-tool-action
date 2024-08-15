@@ -28,7 +28,7 @@ you plan to use:
 | Runner           | Platform / {os} | Arch / {arch} | {ext}    |
 | ---------------- | --------------- | ------------- | -------- |
 | `ubuntu-latest`  | `linux`         | `x64`         | `tar.gz` |
-| `macOS-latest`   | `darwin`        | `x64`         | `tar.gz` |
+| `macos-latest`   | `darwin`        | `arm64`       | `tar.gz` |
 | `windows-latest` | `win32`         | `x64`         | `zip`    |
 
 If the values are correct across all the runners you use, you can do the
