@@ -87,14 +87,15 @@ jobs:
       # forks.
       #
 
-      - if: ${{ matrix.runner == 'ubuntu-latest' && github.actor != 'dependabot[bot]' }}
-        uses: ./
-        with:
-          name: platform
-          version: 2.4.0.2
-          url: "https://github.com/freckle/{name}/releases/download/v{version}/{name}-{arch}-{os}.{ext}"
-          github-token: ${{ secrets.PLATFORM_GITHUB_TOKEN }}
-          arch: x86_64
-          subdir: "{name}"
-      - if: ${{ matrix.runner == 'ubuntu-latest' && github.actor != 'dependabot[bot]' }}
-        run: platform version
+      # Skipping for now because the token has expired
+      # - if: ${{ matrix.runner == 'ubuntu-latest' && github.actor != 'dependabot[bot]' }}
+      #   uses: ./
+      #   with:
+      #     name: platform
+      #     version: 2.4.0.2
+      #     url: "https://github.com/freckle/{name}/releases/download/v{version}/{name}-{arch}-{os}.{ext}"
+      #     github-token: ${{ secrets.PLATFORM_GITHUB_TOKEN }}
+      #     arch: x86_64
+      #     subdir: "{name}"
+      # - if: ${{ matrix.runner == 'ubuntu-latest' && github.actor != 'dependabot[bot]' }}
+      #   run: platform version
