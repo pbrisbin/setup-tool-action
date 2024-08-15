@@ -104,7 +104,7 @@ async function download(releaseConfig: ReleaseConfig): Promise<string> {
       url,
       undefined, // dest
       auth,
-      headers
+      headers,
     );
     const archiveDest = path.join(os.homedir(), "tmp");
     const extracted = await extract(archivePath, archiveDest);
@@ -114,9 +114,8 @@ async function download(releaseConfig: ReleaseConfig): Promise<string> {
 }
 
 async function findOrDownload(releaseConfig: ReleaseConfig): Promise<string> {
-  const { tool, archive } = releaseConfig;
-  const { url } = archive;
-  const existingDir = await tc.find(tool.name, tool.version, tool.arch);
+  const { tool } = releaseConfig;
+  const existingDir = tc.find(tool.name, tool.version, tool.arch);
 
   if (existingDir) {
     core.debug(`Found cached ${tool.name} at ${existingDir}`);
@@ -134,7 +133,7 @@ async function run() {
     core.addPath(dir);
     core.setOutput("directory", dir);
     core.info(
-      `${config.tool.name} ${config.tool.version} is now set up at ${dir}`
+      `${config.tool.name} ${config.tool.version} is now set up at ${dir}`,
     );
   } catch (error) {
     core.setFailed(error instanceof Error ? error : String(error));
