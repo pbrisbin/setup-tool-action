@@ -56,6 +56,8 @@ inputs:
   subdir-x64: { description: "`subdir` when `arch==x64`" }
   subdir-darwin-x64:
     { description: "`subdir` when `platform==darwin` and `arch==x64`" }
+  subdir-darwin-arm64:
+    { description: "`subdir` when `platform==darwin` and `arch==arm64`" }
   subdir-linux-x64:
     { description: "`subdir` when `platform==linux` and `arch==x64`" }
   subdir-win32-x64:
