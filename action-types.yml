@@ -162,3 +162,6 @@ inputs:
 outputs:
   directory:
     type: string
+
+  file:
+    type: string
