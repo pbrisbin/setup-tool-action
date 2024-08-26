@@ -60,6 +60,9 @@ inputs:
   subdir-x64:
     type: string
 
+  subdir-arm64:
+    type: string
+
   subdir-darwin-x64:
     type: string
 
@@ -82,6 +85,9 @@ inputs:
     type: string
 
   os-x64:
+    type: string
+
+  os-arm64:
     type: string
 
   os-darwin-x64:
@@ -108,6 +114,9 @@ inputs:
   arch-x64:
     type: string
 
+  arch-arm64:
+    type: string
+
   arch-darwin-x64:
     type: string
 
@@ -130,6 +139,9 @@ inputs:
     type: string
 
   ext-x64:
+    type: string
+
+  ext-arm64:
     type: string
 
   ext-darwin-x64:
