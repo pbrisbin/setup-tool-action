@@ -54,6 +54,7 @@ inputs:
   subdir-linux: { description: "`subdir` when `platform==linux`" }
   subdir-win32: { description: "`subdir` when `platform==win32`" }
   subdir-x64: { description: "`subdir` when `arch==x64`" }
+  subdir-arm64: { description: "`subdir` when `arch==arm64`" }
   subdir-darwin-x64:
     { description: "`subdir` when `platform==darwin` and `arch==x64`" }
   subdir-darwin-arm64:
@@ -66,6 +67,7 @@ inputs:
   os-linux: { description: "`{os}` to use when `platform==linux`" }
   os-win32: { description: "`{os}` to use when `platform==win32`" }
   os-x64: { description: "`{os}` to use when `arch==x64`" }
+  os-arm64: { description: "`{os}` to use when `arch==arm64`" }
   os-darwin-x64:
     { description: "`{os}` to use when `platform==darwin` and `arch==x64`" }
   os-darwin-arm64:
@@ -78,6 +80,7 @@ inputs:
   arch-linux: { description: "`{arch}` to use when `platform==linux`" }
   arch-win32: { description: "`{arch}` to use when `platform==win32`" }
   arch-x64: { description: "`{arch}` to use when `arch==x64`" }
+  arch-arm64: { description: "`{arch}` to use when `arch==arm64`" }
   arch-darwin-x64:
     { description: "`{arch}` to use when `platform==darwin` and `arch==x64`" }
   arch-darwin-arm64:
@@ -90,6 +93,7 @@ inputs:
   ext-linux: { description: "`{ext}` to use when `platform==linux`" }
   ext-win32: { description: "`{ext}` to use when `platform==win32`" }
   ext-x64: { description: "`{ext}` to use when `arch==x64`" }
+  ext-arm64: { description: "`{ext}` to use when `arch==arm64`" }
   ext-darwin-x64:
     { description: "`{ext}` to use when `platform==darwin` and `arch==x64`" }
   ext-darwin-arm64:
