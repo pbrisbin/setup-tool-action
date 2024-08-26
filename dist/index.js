@@ -407,6 +407,7 @@ function run() {
                     dir = _a.sent();
                     core.addPath(dir);
                     core.setOutput("directory", dir);
+                    core.setOutput("file", path.join(dir, config.tool.name));
                     core.info("".concat(config.tool.name, " ").concat(config.tool.version, " is now set up at ").concat(dir));
                     return [3, 3];
                 case 2:
