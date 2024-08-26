@@ -171,9 +171,10 @@ For more complex examples, see below or the project's test suite.
 
 ## Outputs
 
-| name        | description                                                               |
-| ----------- | ------------------------------------------------------------------------- |
-| `directory` | <p>Directory that was added to <code>$PATH</code> as result of setup.</p> |
+| name        | description                                                                                                                                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `directory` | <p>Directory that was added to <code>$PATH</code> as result of setup.</p>                                                                                                                                    |
+| `file`      | <p>This is always <code>outputs.directory/inputs.name</code>, which will <em>usually</em> match the path to the downloaded and extracted binary. Only use this output if you expect that to be the case.</p> |
 
 <!-- action-docs-outputs action="action.yml" -->
 

@@ -114,6 +114,12 @@ outputs:
   directory:
     description: Directory that was added to `$PATH` as result of setup.
 
+  file:
+    description: |
+      This is always `outputs.directory/inputs.name`, which will _usually_ match
+      the path to the downloaded and extracted binary. Only use this output if
+      you expect that to be the case.
+
 runs:
   using: "node20"
   main: "dist/index.js"

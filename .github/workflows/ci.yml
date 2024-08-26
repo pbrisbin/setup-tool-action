@@ -44,6 +44,8 @@ jobs:
           os-win32: windows
           arch: x86_64
       - run: ls -l '${{ steps.setup-hlint.outputs.directory }}'
+      - if: ${{ matrix.runner != 'windows-latest' }} # it's .exe on win32
+        run: ls -l '${{ steps.setup-hlint.outputs.file }}'
       - run: hlint --version
 
       - id: setup-dms
@@ -56,6 +58,8 @@ jobs:
           os-win32: windows
           arch: amd64
       - run: ls -l '${{ steps.setup-dms.outputs.directory }}'
+      - if: ${{ matrix.runner != 'windows-latest' }}
+        run: ls -l '${{ steps.setup-hlint.outputs.file }}'
       - run: dms --version
 
       - id: setup-pandoc
@@ -71,6 +75,8 @@ jobs:
           arch: x86_64
           arch-linux: amd64
       - run: ls -l '${{ steps.setup-pandoc.outputs.directory }}'
+      - if: ${{ matrix.runner != 'windows-latest' }}
+        run: ls -l '${{ steps.setup-hlint.outputs.file }}'
       - run: pandoc --version
 
       - if: ${{ matrix.runner == 'ubuntu-latest' }}

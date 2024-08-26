@@ -132,6 +132,7 @@ async function run() {
     const dir = await findOrDownload(config);
     core.addPath(dir);
     core.setOutput("directory", dir);
+    core.setOutput("file", path.join(dir, config.tool.name));
     core.info(
       `${config.tool.name} ${config.tool.version} is now set up at ${dir}`,
     );
