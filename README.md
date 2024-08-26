@@ -1,15 +1,15 @@
 # Setup Tool Action
 
-Generic action for installation of any tool that offers pre-compiled
-binaries for download.
+Generic action for installation of any tool that offers pre-compiled binaries
+for download.
 
 ## Motivation
 
 [`@actions/tool-cache`][tc] exists to help download pre-compiled binaries and
-add them to `$PATH`. However, its ergonomics are such that distinct actions for specific
-tools are necessary to wrap it into something useful. For the most part, the
-wrapping is required to manage variation in the release URLs such as the
-position and names used for things like "os" or "architecture".
+add them to `$PATH`. However, its ergonomics are such that distinct actions for
+specific tools are necessary to wrap it into something useful. For the most
+part, the wrapping is required to manage variation in the release URLs such as
+the position and names used for things like "os" or "architecture".
 
 [tc]: https://github.com/actions/toolkit/tree/main/packages/tool-cache
 
@@ -19,8 +19,13 @@ allow the action to be used easily for _any_ such case, and obviate any
 tool-specific actions or support cases for which a tool-specific action doesn't
 exist, without having to create one.
 
-Thanks to the provided [typings](action-types.yml), it is possible to use this action in a type-safe way using
-https://github.com/typesafegithub/github-workflows-kt which allows writing workflow files using a type-safe Kotlin DSL.
+## Types
+
+The [`action-types`](action-types.yml) allows using this action with
+[github-workflows-kt][kt], which allows writing workflow files in a type-safe
+Kotlin DSL.
+
+[kt]: https://github.com/typesafegithub/github-workflows-kt
 
 ## Usage
 
