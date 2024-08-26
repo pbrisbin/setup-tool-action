@@ -1,8 +1,7 @@
 name: Check Action Typing
 
 on:
-  - push
-  - pull_request
+  pull_request:
 
 jobs:
   check_action_typing:
