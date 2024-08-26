@@ -31,6 +31,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - run: ./bin/validate-inputs
 
       - id: setup-hlint
         uses: ./
