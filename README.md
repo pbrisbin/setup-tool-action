@@ -179,10 +179,6 @@ then download that, all using the given token.
 **NOTE**: This currently only works for URLs on `github.com`. PRs welcome if
 there's a way to support enterprise or other setups.
 
-## Outputs
-
-None.
-
 ## Examples
 
 ### HLint
