@@ -1,6 +1,6 @@
 # Setup Tool Action
 
-Generic action for cached installation of any tool that offers pre-compiled
+Generic action for installation of any tool that offers pre-compiled
 binaries for download.
 
 ## Motivation
