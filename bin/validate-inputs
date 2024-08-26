@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+platform=$(node < <(echo 'console.log(process.platform)'))
+arch=$(node < <(echo 'console.log(process.arch)'))
+fail=0
+
+for input in subdir os arch ext; do
+  echo "Verifying $input inputs exist for $platform-$arch"
+
+  for key in "$input-$platform-$arch" "$input-$arch" "$input-$platform"; do
+    found=$(yq ".inputs | to_entries() | .[] | .key | select(. == \"$key\")" action.yml)
+
+    if [[ "$found" != "$key" ]]; then
+      echo "Input with key $key does not exist in action.yaml" >&2
+      fail=1
+    fi
+  done
+done
+
+if ((fail)); then
+  exit 1
+fi
