@@ -6,7 +6,7 @@ binaries for download.
 ## Motivation
 
 [`@actions/tool-cache`][tc] exists to help download pre-compiled binaries and
-cache them. However, its ergonomics are such that distinct actions for specific
+add them to `$PATH`. However, its ergonomics are such that distinct actions for specific
 tools are necessary to wrap it into something useful. For the most part, the
 wrapping is required to manage variation in the release URLs such as the
 position and names used for things like "os" or "architecture".
