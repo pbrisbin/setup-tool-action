@@ -1,5 +1,5 @@
 name: "Setup any binary tool"
-description: "Cached download of any binary release"
+description: "Download and setup of any binary release"
 inputs:
   name:
     description: "Name of the tool"
