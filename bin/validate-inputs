@@ -6,13 +6,13 @@ arch=$(node < <(echo 'console.log(process.arch)'))
 fail=0
 
 for input in subdir os arch ext; do
-  echo "Verifying $input inputs exist for $platform-$arch"
+  printf 'Verifying \e[36m%s\e[0m inputs exist for \e[35m%s\e[0m-\e[35m%s\e[0m\n' "$input" "$platform" "$arch"
 
   for key in "$input-$platform-$arch" "$input-$arch" "$input-$platform"; do
     found=$(yq ".inputs | to_entries() | .[] | .key | select(. == \"$key\")" action.yml)
 
     if [[ "$found" != "$key" ]]; then
-      echo "Input with key $key does not exist in action.yaml" >&2
+      printf '  Missing \e[31m%s\e[0m\n' "$key" >&2
       fail=1
     fi
   done
