@@ -17,7 +17,7 @@
   "author": "Patrick Brisbin <pbrisbin@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.11.0",
     "@actions/github": "^6.0.0",
     "@actions/tool-cache": "^2.0.1",
     "action-docs": "^2.4.3"
