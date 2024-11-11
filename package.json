@@ -20,7 +20,7 @@
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",
     "@actions/tool-cache": "^2.0.1",
-    "action-docs": "^2.5.0"
+    "action-docs": "^2.5.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
