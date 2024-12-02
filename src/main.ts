@@ -64,8 +64,7 @@ async function mkReleaseConfig(
     return await github.getLatestRelease(url, githubTokenForLatest);
   };
 
-  const version = rawVersion === "" ? await inferVersion() : rawVersion;
-
+  const version = rawVersion ? rawVersion : await inferVersion();
   const templateVars = { name, version, os, arch, ext };
   const url = interpolate(urlTemplate, templateVars);
   const subdir = subdirTemplate

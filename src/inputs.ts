@@ -33,7 +33,7 @@ export interface Core {
 
 export interface Inputs {
   name: string;
-  version: string;
+  version: string | null;
   url: string;
   subdir: string | null;
   os: string;
@@ -51,7 +51,7 @@ export function getInputs(
 ): Inputs {
   return {
     name: requireInput(core, ["name"]),
-    version: optionalInput(core, ["version"]) || "",
+    version: optionalInput(core, ["version"]),
     url: requireInput(core, specifiedInputs(platform, osArch, "url")),
     subdir: optionalInput(core, specifiedInputs(platform, osArch, "subdir")),
     os: optionalInputDefault(
