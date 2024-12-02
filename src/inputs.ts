@@ -41,42 +41,47 @@ export interface Inputs {
   ext: string;
   noExtract: boolean;
   githubToken: string | null;
+  githubTokenForLatest: string;
 }
 
 export function getInputs(
   platform: Platform,
   osArch: Arch,
-  core: Core
+  core: Core,
 ): Inputs {
   return {
     name: requireInput(core, ["name"]),
-    version: requireInput(core, ["version"]),
+    version: optionalInput(core, ["version"]) || "",
     url: requireInput(core, specifiedInputs(platform, osArch, "url")),
     subdir: optionalInput(core, specifiedInputs(platform, osArch, "subdir")),
     os: optionalInputDefault(
       core,
       specifiedInputs(platform, osArch, "os"),
-      platform
+      platform,
     ),
     arch: optionalInputDefault(
       core,
       specifiedInputs(platform, osArch, "arch"),
-      osArch
+      osArch,
     ),
     ext: optionalInputDefault(
       core,
       specifiedInputs(platform, osArch, "ext"),
-      inferExtension(platform)
+      inferExtension(platform),
     ),
     noExtract: core.getInput("no-extract", { required: false }) === "true",
     githubToken: core.getInput("github-token", { required: false }),
+    githubTokenForLatest: requireInput(core, [
+      "github-token",
+      "github-token-for-latest",
+    ]),
   };
 }
 
 function specifiedInputs(
   platform: Platform,
   arch: Arch,
-  input: string
+  input: string,
 ): string[] {
   return [
     `${input}-${platform}-${arch}`,
@@ -90,7 +95,12 @@ function requireInput(core: Core, inputs: string[]): string {
   const value = inputs.map((x) => core.getInput(x)).find((x) => x);
 
   if (!value) {
-    throw new Error(`You must supply one of ${inputs} as an input`);
+    const message =
+      inputs.length === 1
+        ? `You must supply the ${inputs[0]} input`
+        : `You must supply one of ${inputs} as an input`;
+
+    throw new Error(message);
   }
 
   return value;
@@ -104,7 +114,7 @@ function optionalInput(core: Core, inputs: string[]): string | null {
 function optionalInputDefault(
   core: Core,
   inputs: string[],
-  def: string
+  def: string,
 ): string {
   const value = inputs.map((x) => core.getInput(x)).find((x) => x);
   return value ? value : def;

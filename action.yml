@@ -6,8 +6,12 @@ inputs:
     required: true
 
   version:
-    description: "Version of the tool"
-    required: true
+    description: |
+      Version of the tool
+
+      This is required unless `url` is to a GitHub release asset, in which case
+      the latest release will be looked up.
+    required: false
 
   url:
     description: |
@@ -109,6 +113,14 @@ inputs:
       private and use this token to download the asset through the GitHub API.
 
       https://docs.github.com/en/rest/releases/assets?apiVersion=2022-11-28#get-a-release-asset
+
+  github-token-for-latest:
+    description: |
+      Token used for looking up a latest release when `url` is to a GitHub
+      release asset and `github-token` is not set. Defaults to `github.token`.
+      This is useful to avoid rate limits when fetching public releases. You
+      shouldn't need to change this.
+    default: ${{ github.token }}
 
 outputs:
   directory:

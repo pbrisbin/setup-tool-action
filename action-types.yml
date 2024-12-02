@@ -159,6 +159,9 @@ inputs:
   github-token:
     type: string
 
+  github-token-for-latest:
+    type: string
+
 outputs:
   directory:
     type: string
