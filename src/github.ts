@@ -2,8 +2,6 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { OutgoingHttpHeaders } from "http";
 
-import { GitHubAssetUrl, toGitHubAssetUrl } from "./github-asset-url";
-
 export interface DownloadArgs {
   url: string;
   auth: string | undefined;
@@ -83,4 +81,37 @@ export async function getLatestRelease(
   core.info(`Inferred version from release: ${version}`);
 
   return version;
+}
+
+export interface GitHubAssetUrl {
+  owner: string;
+  repo: string;
+  tag: string;
+  name: string;
+}
+
+export function toGitHubAssetUrl(url: string): GitHubAssetUrl | null {
+  const re = new RegExp(
+    [
+      "^https://github.com",
+      "/(?<owner>[^/]+)",
+      "/(?<repo>[^/]+)",
+      "/releases/download",
+      "/(?<tag>[^/]+)",
+      "/(?<name>.+)$",
+    ].join(""),
+  );
+
+  const match = url.match(re);
+
+  if (!match?.groups) {
+    return null;
+  }
+
+  return {
+    owner: match.groups["owner"],
+    repo: match.groups["repo"],
+    tag: match.groups["tag"],
+    name: match.groups["name"],
+  };
 }
