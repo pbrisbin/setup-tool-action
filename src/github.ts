@@ -2,6 +2,8 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { OutgoingHttpHeaders } from "http";
 
+import { GitHubAssetUrl, toGitHubAssetUrl } from "./github-asset-url";
+
 export interface DownloadArgs {
   url: string;
   auth: string | undefined;
@@ -10,7 +12,7 @@ export interface DownloadArgs {
 
 export async function findReleaseAsset(
   url: string,
-  githubToken: string
+  githubToken: string,
 ): Promise<DownloadArgs> {
   const assetUrl = toGitHubAssetUrl(url);
 
@@ -20,7 +22,7 @@ export async function findReleaseAsset(
   }
 
   core.info(
-    `Parsed as asset-url, ${assetUrl.owner}/${assetUrl.repo} ${assetUrl.tag} ${assetUrl.name}`
+    `Parsed as asset-url, ${assetUrl.owner}/${assetUrl.repo} ${assetUrl.tag} ${assetUrl.name}`,
   );
 
   const { owner, repo, tag, name } = assetUrl;
@@ -37,7 +39,7 @@ export async function findReleaseAsset(
   core.info(
     `Release ${tag} contains the following assets: ${assets
       .map((asset) => asset.name)
-      .join(", ")}`
+      .join(", ")}`,
   );
 
   const asset = assets.find((asset) => {
@@ -58,35 +60,27 @@ export async function findReleaseAsset(
   };
 }
 
-export interface GitHubAssetUrl {
-  owner: string;
-  repo: string;
-  tag: string;
-  name: string;
-}
+export async function getLatestRelease(
+  url: string,
+  githubToken: string,
+): Promise<string> {
+  const assetUrl = toGitHubAssetUrl(url);
 
-export function toGitHubAssetUrl(url: string): GitHubAssetUrl | null {
-  const re = new RegExp(
-    [
-      "^https://github.com",
-      "/(?<owner>[^/]+)",
-      "/(?<repo>[^/]+)",
-      "/releases/download",
-      "/(?<tag>[^/]+)",
-      "/(?<name>.+)$",
-    ].join("")
-  );
-
-  const match = url.match(re);
-
-  if (!match?.groups) {
-    return null;
+  if (!assetUrl) {
+    throw new Error(
+      "URL is not a GitHub release asset, version cannot be omitted",
+    );
   }
 
-  return {
-    owner: match.groups["owner"],
-    repo: match.groups["repo"],
-    tag: match.groups["tag"],
-    name: match.groups["name"],
-  };
+  const { owner, repo } = assetUrl;
+  core.info(`URL is to a GitHub Asset in ${owner}/${repo}`);
+  const client = github.getOctokit(githubToken);
+
+  const { data } = await client.rest.repos.getLatestRelease({ owner, repo });
+  core.debug(`Latest release: ${JSON.stringify(data)}`);
+
+  const version = data.tag_name.replace(/^v/, "");
+  core.info(`Inferred version from release: ${version}`);
+
+  return version;
 }

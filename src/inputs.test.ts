@@ -1,26 +1,30 @@
 import { getInputs } from "./inputs";
 
+function defaultGetInput(input: string): string | null {
+  switch (input) {
+    case "name":
+      return "tool";
+    case "version":
+      return "0.0.0";
+    case "url":
+      return "https://example.com";
+    case "github-token-for-latest":
+      return "xxx";
+    default:
+      return null;
+  }
+}
+
 describe("getInputs", () => {
   test("with only url specified", () => {
     const core = {
-      getInput: (input: string): string | null => {
-        switch (input) {
-          case "name":
-            return "tool";
-          case "version":
-            return "0.0.0";
-          case "url":
-            return "https://example.com";
-          default:
-            return null;
-        }
-      },
+      getInput: defaultGetInput,
     };
 
     const { name, version, url, subdir, os, arch, ext } = getInputs(
       "darwin",
       "arm",
-      core
+      core,
     );
 
     expect(name).toEqual("tool");
@@ -36,16 +40,10 @@ describe("getInputs", () => {
     const core = {
       getInput: (input: string): string | null => {
         switch (input) {
-          case "name":
-            return "tool";
-          case "version":
-            return "0.0.0";
-          case "url":
-            return "https://example.com";
           case "url-linux":
             return "https://example-linux.com";
           default:
-            return null;
+            return defaultGetInput(input);
         }
       },
     };
@@ -61,18 +59,12 @@ describe("getInputs", () => {
     const core = {
       getInput: (input: string): string | null => {
         switch (input) {
-          case "name":
-            return "tool";
-          case "version":
-            return "0.0.0";
-          case "url":
-            return "https://example.com";
           case "arch":
             return "x86_64";
           case "arch-darwin-x64":
             return "arm";
           default:
-            return null;
+            return defaultGetInput(input);
         }
       },
     };
@@ -88,18 +80,12 @@ describe("getInputs", () => {
     const core = {
       getInput: (input: string): string | null => {
         switch (input) {
-          case "name":
-            return "tool";
-          case "version":
-            return "0.0.0";
-          case "url":
-            return "https://example.com";
           case "arch-linux-x64":
             return "amd64";
           case "arch-win32-x64":
             return "x86_64";
           default:
-            return null;
+            return defaultGetInput(input);
         }
       },
     };
@@ -117,16 +103,10 @@ describe("getInputs", () => {
     const core = {
       getInput: (input: string): string | null => {
         switch (input) {
-          case "name":
-            return "tool";
-          case "version":
-            return "0.0.0";
-          case "url":
-            return "https://example.com";
           case "ext-win32":
             return "7z";
           default:
-            return null;
+            return defaultGetInput(input);
         }
       },
     };

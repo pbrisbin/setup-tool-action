@@ -42,10 +42,13 @@ interface ReleaseConfig {
   githubToken: string | null;
 }
 
-function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
+async function mkReleaseConfig(
+  platform: Platform,
+  osArch: Arch,
+): Promise<ReleaseConfig> {
   const {
     name,
-    version,
+    version: rawVersion,
     url: urlTemplate,
     subdir: subdirTemplate,
     os,
@@ -53,7 +56,15 @@ function mkReleaseConfig(platform: Platform, osArch: Arch): ReleaseConfig {
     ext,
     noExtract,
     githubToken,
-  } = getInputs(platform, osArch, core);
+    githubTokenForLatest,
+  } = await getInputs(platform, osArch, core);
+
+  const inferVersion = async (): Promise<string> => {
+    const url = interpolate(urlTemplate, { name, os, arch, ext });
+    return await github.getLatestRelease(url, githubTokenForLatest);
+  };
+
+  const version = rawVersion === "" ? await inferVersion() : rawVersion;
 
   const templateVars = { name, version, os, arch, ext };
   const url = interpolate(urlTemplate, templateVars);
@@ -94,6 +105,12 @@ async function download(releaseConfig: ReleaseConfig): Promise<string> {
       core.info("Downloading without extraction");
       const tmp = path.join(os.homedir(), "tmp", tool.name);
       const dest = path.join(tmp, tool.name);
+
+      if (fs.existsSync(dest)) {
+        // Only likely in our own test suite
+        fs.unlinkSync(dest);
+      }
+
       await tc.downloadTool(url, dest, auth, headers);
       core.debug(`chmod 755 ${dest}`);
       fs.chmodSync(dest, "755");
@@ -128,7 +145,10 @@ async function findOrDownload(releaseConfig: ReleaseConfig): Promise<string> {
 
 async function run() {
   try {
-    const config = mkReleaseConfig(process.platform, process.arch as Arch);
+    const config = await mkReleaseConfig(
+      process.platform,
+      process.arch as Arch,
+    );
     const dir = await findOrDownload(config);
     core.addPath(dir);
     core.setOutput("directory", dir);
