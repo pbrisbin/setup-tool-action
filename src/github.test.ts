@@ -1,4 +1,4 @@
-import { toGitHubAssetUrl } from "./github-asset-url";
+import { toGitHubAssetUrl } from "./github";
 
 describe("toGitHubAssetUrl", () => {
   test("it parses a github.com asset URL", () => {
