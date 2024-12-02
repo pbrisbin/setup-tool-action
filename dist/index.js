@@ -1,37 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 7100:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.toGitHubAssetUrl = toGitHubAssetUrl;
-function toGitHubAssetUrl(url) {
-    var re = new RegExp([
-        "^https://github.com",
-        "/(?<owner>[^/]+)",
-        "/(?<repo>[^/]+)",
-        "/releases/download",
-        "/(?<tag>[^/]+)",
-        "/(?<name>.+)$",
-    ].join(""));
-    var match = url.match(re);
-    if (!(match === null || match === void 0 ? void 0 : match.groups)) {
-        return null;
-    }
-    return {
-        owner: match.groups["owner"],
-        repo: match.groups["repo"],
-        tag: match.groups["tag"],
-        name: match.groups["name"],
-    };
-}
-
-
-/***/ }),
-
 /***/ 6681:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -109,16 +78,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.findReleaseAsset = findReleaseAsset;
 exports.getLatestRelease = getLatestRelease;
+exports.toGitHubAssetUrl = toGitHubAssetUrl;
 var core = __importStar(__nccwpck_require__(7484));
 var github = __importStar(__nccwpck_require__(3228));
-var github_asset_url_1 = __nccwpck_require__(7100);
 function findReleaseAsset(url, githubToken) {
     return __awaiter(this, void 0, void 0, function () {
         var assetUrl, owner, repo, tag, name, octokit, assets, asset;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    assetUrl = (0, github_asset_url_1.toGitHubAssetUrl)(url);
+                    assetUrl = toGitHubAssetUrl(url);
                     if (!assetUrl) {
                         core.error("".concat(url, " did not parse as a GitHub release asset"));
                         return [2, { url: url, auth: undefined, headers: undefined }];
@@ -159,7 +128,7 @@ function getLatestRelease(url, githubToken) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    assetUrl = (0, github_asset_url_1.toGitHubAssetUrl)(url);
+                    assetUrl = toGitHubAssetUrl(url);
                     if (!assetUrl) {
                         throw new Error("URL is not a GitHub release asset, version cannot be omitted");
                     }
@@ -177,6 +146,26 @@ function getLatestRelease(url, githubToken) {
         });
     });
 }
+function toGitHubAssetUrl(url) {
+    var re = new RegExp([
+        "^https://github.com",
+        "/(?<owner>[^/]+)",
+        "/(?<repo>[^/]+)",
+        "/releases/download",
+        "/(?<tag>[^/]+)",
+        "/(?<name>.+)$",
+    ].join(""));
+    var match = url.match(re);
+    if (!(match === null || match === void 0 ? void 0 : match.groups)) {
+        return null;
+    }
+    return {
+        owner: match.groups["owner"],
+        repo: match.groups["repo"],
+        tag: match.groups["tag"],
+        name: match.groups["name"],
+    };
+}
 
 
 /***/ }),
@@ -191,7 +180,7 @@ exports.getInputs = getInputs;
 function getInputs(platform, osArch, core) {
     return {
         name: requireInput(core, ["name"]),
-        version: optionalInput(core, ["version"]) || "",
+        version: optionalInput(core, ["version"]),
         url: requireInput(core, specifiedInputs(platform, osArch, "url")),
         subdir: optionalInput(core, specifiedInputs(platform, osArch, "subdir")),
         os: optionalInputDefault(core, specifiedInputs(platform, osArch, "os"), platform),
@@ -376,13 +365,12 @@ function mkReleaseConfig(platform, osArch) {
                             }
                         });
                     }); };
-                    if (!(rawVersion === "")) return [3, 3];
-                    return [4, inferVersion()];
-                case 2:
-                    _b = _c.sent();
-                    return [3, 4];
-                case 3:
+                    if (!rawVersion) return [3, 2];
                     _b = rawVersion;
+                    return [3, 4];
+                case 2: return [4, inferVersion()];
+                case 3:
+                    _b = _c.sent();
                     _c.label = 4;
                 case 4:
                     version = _b;
