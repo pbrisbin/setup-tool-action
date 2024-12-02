@@ -9,8 +9,8 @@ inputs:
     description: |
       Version of the tool
 
-      This is required unless `url` is to a GitHub release asset, in which case
-      the latest release will be looked up.
+      Required unless `url` is to a GitHub release asset, in which case the
+      latest release will be looked up if left blank.
     required: false
 
   url:
@@ -116,10 +116,9 @@ inputs:
 
   github-token-for-latest:
     description: |
-      Token used for looking up a latest release when `url` is to a GitHub
-      release asset and `github-token` is not set. Defaults to `github.token`.
-      This is useful to avoid rate limits when fetching public releases. You
-      shouldn't need to change this.
+      Token used for looking up a latest release when `version` is blank, `url`
+      is to a GitHub release asset, and `github-token` is not set. This is to
+      avoid rate limits when interacting with public releases.
     default: ${{ github.token }}
 
 outputs:
