@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - rc/*
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: docker
+    steps:
+      - uses: https://data.forgejo.org/actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - id: release
+        uses: https://github.com/cycjimmy/semantic-release-action@v5
+        with:
+          extra_plugins: |
+            @semantic-release/exec
+            @semantic-release/github@beta
+            conventional-changelog-conventionalcommits
+            semantic-release-major-tag
+        env:
+          FORCE_COLOR: 1
+          GITHUB_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
