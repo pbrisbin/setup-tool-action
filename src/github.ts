@@ -24,7 +24,9 @@ export async function findReleaseAsset(
   );
 
   const { owner, repo, tag, name } = assetUrl;
-  const octokit = github.getOctokit(githubToken);
+  const octokit = github.getOctokit(githubToken, {
+    baseUrl: assetUrl.baseUrl,
+  });
 
   const {
     data: { assets },
@@ -72,7 +74,9 @@ export async function getLatestRelease(
 
   const { owner, repo } = assetUrl;
   core.info(`URL is to a GitHub Asset in ${owner}/${repo}`);
-  const client = github.getOctokit(githubToken);
+  const client = github.getOctokit(githubToken, {
+    baseUrl: assetUrl.baseUrl,
+  });
 
   const { data } = await client.rest.repos.getLatestRelease({ owner, repo });
   core.debug(`Latest release: ${JSON.stringify(data)}`);
@@ -84,6 +88,7 @@ export async function getLatestRelease(
 }
 
 export interface GitHubAssetUrl {
+  baseUrl: string;
   owner: string;
   repo: string;
   tag: string;
@@ -109,6 +114,7 @@ export function toGitHubAssetUrl(url: string): GitHubAssetUrl | null {
   }
 
   return {
+    baseUrl: "https://api.github.com",
     owner: match.groups["owner"],
     repo: match.groups["repo"],
     tag: match.groups["tag"],

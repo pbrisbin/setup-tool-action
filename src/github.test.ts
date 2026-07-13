@@ -5,6 +5,7 @@ describe("toGitHubAssetUrl", () => {
     const input =
       "https://github.com/pbrisbin/litx/releases/download/v0.0.0.2/litx-x86_64-linux.tar.gz";
     const expected = {
+      baseUrl: "https://api.github.com",
       owner: "pbrisbin",
       repo: "litx",
       tag: "v0.0.0.2",
