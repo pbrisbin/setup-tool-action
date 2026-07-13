@@ -54,7 +54,7 @@ following:
 
 ```yaml
 steps:
-  - uses: pbrisbin/setup-tool-action@v2
+  - uses: https://codeberg.org/pbrisbin/setup-tool-action@v2
     with:
       name: my-tool
       version: 1.0.0
@@ -68,7 +68,7 @@ Let's say you are only installing on Linux, and it uses `x86_64` for `arch`:
 
 ```yaml
 steps:
-  - uses: pbrisbin/setup-tool-action@v2
+  - uses: https://codeberg.org/pbrisbin/setup-tool-action@v2
     with:
       name: my-tool
       version: 1.0.0
@@ -91,7 +91,7 @@ change the `arch` for Linux, that would look like:
 
 ```yaml
 steps:
-  - uses: pbrisbin/setup-tool-action@v2
+  - uses: https://codeberg.org/pbrisbin/setup-tool-action@v2
     with:
       name: my-tool
       version: 1.0.0
@@ -104,7 +104,7 @@ MacOS artifacts:
 
 ```yaml
 steps:
-  - uses: pbrisbin/setup-tool-action@v2
+  - uses: https://codeberg.org/pbrisbin/setup-tool-action@v2
     with:
       name: my-tool
       version: 1.0.0
