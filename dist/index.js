@@ -94,7 +94,9 @@ function findReleaseAsset(url, githubToken) {
                     }
                     core.info("Parsed as asset-url, ".concat(assetUrl.owner, "/").concat(assetUrl.repo, " ").concat(assetUrl.tag, " ").concat(assetUrl.name));
                     owner = assetUrl.owner, repo = assetUrl.repo, tag = assetUrl.tag, name = assetUrl.name;
-                    octokit = github.getOctokit(githubToken);
+                    octokit = github.getOctokit(githubToken, {
+                        baseUrl: assetUrl.baseUrl,
+                    });
                     return [4, octokit.request("GET /repos/{owner}/{repo}/releases/tags/{tag}", {
                             owner: owner,
                             repo: repo,
@@ -134,7 +136,9 @@ function getLatestRelease(url, githubToken) {
                     }
                     owner = assetUrl.owner, repo = assetUrl.repo;
                     core.info("URL is to a GitHub Asset in ".concat(owner, "/").concat(repo));
-                    client = github.getOctokit(githubToken);
+                    client = github.getOctokit(githubToken, {
+                        baseUrl: assetUrl.baseUrl,
+                    });
                     return [4, client.rest.repos.getLatestRelease({ owner: owner, repo: repo })];
                 case 1:
                     data = (_a.sent()).data;
@@ -160,6 +164,7 @@ function toGitHubAssetUrl(url) {
         return null;
     }
     return {
+        baseUrl: "https://api.github.com",
         owner: match.groups["owner"],
         repo: match.groups["repo"],
         tag: match.groups["tag"],
