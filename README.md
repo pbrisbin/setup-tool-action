@@ -3,6 +3,12 @@
 Generic action for installation of any tool that offers pre-compiled binaries
 for download.
 
+> [!NOTE]
+>
+> This action is mirrored to GitHub, because GitHub can only use actions hosted
+> on GitHub. However, no development will occur there. If you are  are looking
+> to contribute or report issues, please go to Codeberg.
+
 ## Motivation
 
 [`@actions/tool-cache`][tc] exists to help download pre-compiled binaries and
